@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>바이브 코딩 2시간 완성반 - 강의 슬라이드</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0f172a 60%, #020617 100%);
+      --accent-purple: #8b5cf6;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-hover: rgba(255, 255, 255, 0.08);
+      --card-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* Top Progress Bar */
+    .progress-bar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 100;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 12.5%;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Slide Container */
+    .slider-viewport {
+      position: relative;
+      width: 92vw;
+      max-width: 1100px;
+      height: 75vh;
+      max-height: 680px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 50px 60px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px) scale(0.98);
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Typography & Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+      width: fit-content;
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: #c4b5fd;
+    }
+
+    .badge.cyan {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: rgba(6, 182, 212, 0.3);
+      color: #67e8f9;
+    }
+
+    .badge.emerald {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #6ee7b7;
+    }
+
+    h1.hero-title {
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h2.slide-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    p.slide-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    /* Grid Layouts for Content */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      padding: 24px;
+      border-radius: 16px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(139, 92, 246, 0.4);
+      background: var(--glass-hover);
+    }
+
+    .card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .card-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Code & Highlight Box */
+    .code-box {
+      background: #090d16;
+      border: 1px solid #1e293b;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.92rem;
+      color: #38bdf8;
+      line-height: 1.6;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+
+    .quote-box {
+      border-left: 4px solid var(--accent-purple);
+      padding-left: 16px;
+      margin: 16px 0;
+      color: #e2e8f0;
+      font-style: italic;
+    }
+
+    /* Bottom Controls */
+    .controls-wrapper {
+      position: fixed;
+      bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 8px 18px;
+      border-radius: 9999px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.2rem;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-btn:active {
+      transform: scale(0.92);
+    }
+
+    .slide-counter {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .keyboard-hint {
+      position: fixed;
+      bottom: 12px;
+      font-size: 0.75rem;
+      color: #64748b;
+      letter-spacing: 0.02em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Slides Viewport -->
+  <main class="slider-viewport">
+
+    <!-- Slide 1: 타이틀 -->
+    <section class="slide active" data-index="1">
+      <div class="badge">2 Hours Workshop</div>
+      <h1 class="hero-title">바이브 코딩으로 완성하는<br>첫 풀스택 웹서비스</h1>
+      <p class="slide-subtitle">문법 암기 없이, 2시간 만에 DB 연동 투두리스트부터 내 이력서 배포까지</p>
+      
+      <div class="grid-3" style="margin-top: 10px;">
+        <div class="feature-card">
+          <div class="card-icon">⚡</div>
+          <div class="card-title">1. 마인드셋</div>
+          <div class="card-desc">코더(Coder)에서 AI를 지휘하는 디렉터(Director)로의 전환</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-icon">🗄️</div>
+          <div class="card-title">2. DB & 투두리스트</div>
+          <div class="card-desc">Supabase로 5분 만에 클라우드 DB 붙이고 CRUD 완성</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-icon">🚀</div>
+          <div class="card-title">3. Vercel & 이력서</div>
+          <div class="card-desc">GitHub와 Vercel로 인터넷에 배포하고 내 포트폴리오로 확장</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2: 바이브 코딩이란? -->
+    <section class="slide" data-index="2">
+      <div class="badge cyan">Section 1 · 개념 이해</div>
+      <h2 class="slide-title">바이브 코딩(Vibe Coding)이란?</h2>
+      <p class="slide-subtitle">문법을 외우는 것이 아니라, AI에게 명확한 맥락과 사각지대 없는 의도를 <strong>디렉팅</strong>하는 개발</p>
+
+      <div class="grid-2">
+        <div class="feature-card" style="border-left: 4px solid #ef4444;">
+          <div class="card-title">⚠️ 잘못된 바이브 코딩</div>
+          <div class="card-desc">
+            • <strong>지시의 부재 & 사각지대</strong>: 빈 공간을 AI가 추측하게 방치<br>
+            • "알아서 적당히 만들어줘" 식의 모호한 요청<br>
+            • 플랫폼 하네싱(도구, 터미널, 컨텍스트)을 무시한 소통<br>
+            • <em>현상: 환각이 아니라 지시 결손으로 인한 엉뚱한 결과</em>
+          </div>
+        </div>
+        <div class="feature-card" style="border-left: 4px solid var(--accent-emerald);">
+          <div class="card-title">✨ 올바른 바이브 코딩</div>
+          <div class="card-desc">
+            • <strong>세세한 디렉팅(Directing)</strong>: 의도와 제약조건을 명확히 명시<br>
+            • <strong>스펙 작게 쪼개기</strong>: DB 구조 → 화면 UI → 인터랙션 단계 분할<br>
+            • <strong>도구 기반 피드백</strong>: 에러 로그 공유 및 실시간 시각적 검증<br>
+            • <em>현상: 사각지대를 메워 신뢰성 높은 결과 도출</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="quote-box" style="margin-top: 18px; font-size: 0.95rem;">
+        💡 <em>"현대 AI 플랫폼의 하네싱은 이미 강력합니다. 지금 발생하는 오류는 환각이 아니라 <strong>지시의 사각지대</strong>에서 생깁니다."</em>
+      </div>
+    </section>
+
+    <!-- Slide 3: 환경설정 및 설치 -->
+    <section class="slide" data-index="3">
+      <div class="badge">Section 2 · 15분 환경 세팅</div>
+      <h2 class="slide-title">실패 확률 0% 환경설정 체크</h2>
+      <p class="slide-subtitle">오늘 우리는 복잡한 인증 절차를 한 방에 통과하는 치트키를 사용합니다.</p>
+
+      <div class="grid-3">
+        <div class="feature-card">
+          <div class="card-icon">🐙</div>
+          <div class="card-title">1. GitHub 계정 하나로 통일</div>
+          <div class="card-desc">Supabase, Vercel 모두 별도 가입 없이 <strong>[Continue with GitHub]</strong>로 1초 로그인</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-icon">💻</div>
+          <div class="card-title">2. 필수 도구 3종 확인</div>
+          <div class="card-desc">
+            • Node.js LTS (`node -v`)<br>
+            • Git (`git --version`)<br>
+            • <strong>GitHub Desktop</strong> (인증 에러 방지)
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="card-icon">🛡️</div>
+          <div class="card-title">3. OS별 단골 지뢰 방어</div>
+          <div class="card-desc">
+            • 🪟 Win: 스크립트 실행 오류 시 `Set-ExecutionPolicy RemoteSigned`<br>
+            • 🍎 Mac: 보안 경고 시 우클릭 [열기]
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4: Supabase 5분 컷 -->
+    <section class="slide" data-index="4">
+      <div class="badge emerald">Section 3 · 실습 파트 1</div>
+      <h2 class="slide-title">Supabase 5분 컷 (DB 준비)</h2>
+      <p class="slide-subtitle">백엔드 서버 구축 없이, 클라우드 PostgreSQL에 3줄 SQL로 테이블 완성</p>
+
+      <div class="code-box">
+-- Supabase SQL Editor에 복사해서 Run 클릭!
+create table todos (
+  id bigint generated by default as identity primary key,
+  title text not null,
+  is_completed boolean default false,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+alter table todos enable row level security;
+create policy "Public Access" on todos for all using (true) with check (true);
+      </div>
+
+      <div class="quote-box">
+        💡 <strong>핵심 메모</strong>: Project Settings → API에서 <code>Project URL</code>과 <code>anon public key</code> 2개만 메모장에 복사해둡니다.
+      </div>
+    </section>
+
+    <!-- Slide 5: 투두리스트 바이브 코딩 -->
+    <section class="slide" data-index="5">
+      <div class="badge cyan">Section 3 · 실습 파트 2</div>
+      <h2 class="slide-title">AI에게 던지는 마법의 프롬프트</h2>
+      <p class="slide-subtitle">안티그래비티에게 명확한 역할과 재료(.env)를 쥐어줍니다.</p>
+
+      <div class="feature-card" style="margin-bottom: 16px;">
+        <div class="card-title">🗣️ 수강생 프롬프트 예시</div>
+        <p style="color: #cbd5e1; line-height: 1.6; font-size: 0.95rem;">
+          "Supabase를 연동한 모던 다크모드 투두리스트 웹앱을 만들어줘.<br>
+          1. 할 일 추가, 완료 체크(취소선), 삭제 기능이 Supabase <code>todos</code> 테이블과 실시간 연동되어야 해.<br>
+          2. <code>.env</code> 파일에 Supabase URL과 KEY를 넣을 수 있도록 설정해줘.<br>
+          3. 패키지 설치부터 로컬 개발 서버 실행까지 완료해줘."
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="feature-card">
+          <div class="card-title">✨ 한 줄 더 지시하기의 맛</div>
+          <div class="card-desc">"완료 체크할 때 폭죽(confetti) 애니메이션 나오게 해줘"</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-title">🔍 실시간 브라우저 검증</div>
+          <div class="card-desc">안티그래비티가 직접 브라우저를 열어 UI 동작을 자동 확인</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 6: Vercel 배포 -->
+    <section class="slide" data-index="6">
+      <div class="badge emerald">Section 3 · 실습 파트 3</div>
+      <h2 class="slide-title">GitHub 푸시 & Vercel 1분 배포</h2>
+      <p class="slide-subtitle">로컬 내 컴퓨터 안에서 돌던 웹앱을 전 세계 인터넷으로 배포합니다.</p>
+
+      <div class="grid-3">
+        <div class="feature-card">
+          <div class="card-icon">1️⃣</div>
+          <div class="card-title">GitHub 저장소 생성</div>
+          <div class="card-desc">GitHub Desktop에서 [Publish repository] 원클릭 푸시</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-icon">2️⃣</div>
+          <div class="card-title">Vercel Import</div>
+          <div class="card-desc">Vercel 로그인 후 방금 올린 저장소 선택 (Import)</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-icon">3️⃣</div>
+          <div class="card-title">환경변수 입력 & Deploy</div>
+          <div class="card-desc">
+            <code>VITE_SUPABASE_URL</code><br>
+            <code>VITE_SUPABASE_ANON_KEY</code><br>
+            값 붙여넣고 [Deploy] 클릭!
+          </div>
+        </div>
+      </div>
+
+      <div class="quote-box" style="margin-top: 20px;">
+        🎉 <strong>첫 번째 감동의 순간</strong>: 스마트폰으로 배포된 Vercel URL을 열어 할 일을 추가해 보세요!
+      </div>
+    </section>
+
+    <!-- Slide 7: 내 이력서 페이지 확장 -->
+    <section class="slide" data-index="7">
+      <div class="badge">Section 4 · 최종 확장</div>
+      <h2 class="slide-title">내 첫 포트폴리오/이력서로 전환하기</h2>
+      <p class="slide-subtitle">이미 배포 파이프라인(Git → Vercel)이 뚫렸으므로, 이제 말만 하면 사이트가 바뀝니다.</p>
+
+      <div class="feature-card" style="margin-bottom: 20px;">
+        <div class="card-title">🗣️ 이력서 확장 프롬프트</div>
+        <p style="color: #cbd5e1; line-height: 1.6; font-size: 0.95rem;">
+          "현재 웹사이트를 나의 개발자 포트폴리오 & 이력서 사이트로 리뉴얼해줘.<br>
+          • <strong>상단 Hero</strong>: 내 이름(홍길동), 'AI와 협업하는 프론트엔드 지망생' 한 줄 소개 및 GitHub 링크<br>
+          • <strong>About & Skills</strong>: 관심 기술 스택 카드 (HTML/CSS/JS, Supabase, Vercel)<br>
+          • <strong>Project 섹션</strong>: 우리가 방금 만든 'Supabase 실시간 투두리스트'를 임베드하거나 데모 섹션으로 배치"
+        </p>
+      </div>
+
+      <div class="quote-box">
+        🚀 <code>git push</code> 한 번이면 Vercel이 30초 만에 새 이력서로 자동 업데이트 배포합니다.
+      </div>
+    </section>
+
+    <!-- Slide 8: 마무리 및 Q&A -->
+    <section class="slide" data-index="8">
+      <div class="badge cyan">Wrap Up</div>
+      <h1 class="hero-title" style="font-size: 2.6rem;">오늘 2시간 동안 여러분은<br>진짜 풀스택 배포를 완주했습니다</h1>
+      <p class="slide-subtitle">데이터베이스(Supabase) → 웹 프론트엔드 → 자동 배포(Vercel)까지의 파이프라인을 체득했습니다.</p>
+
+      <div class="grid-2">
+        <div class="feature-card">
+          <div class="card-title">💡 바이브 코딩 다음 단계 추천</div>
+          <div class="card-desc">
+            1. 이력서에 내 사진(AI 프로필) 추가하기<br>
+            2. 투두리스트에 마감일(D-day) 및 태그 기능 추가하기<br>
+            3. 방명록(Guestbook) 테이블 하나 더 파서 댓글창 만들기
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="card-title">🙋‍♂️ Q & A 및 피드백</div>
+          <div class="card-desc">
+            질문이나 막히셨던 부분, 더 궁금한 프롬프트 패턴이 있다면 자유롭게 물어보세요!
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Nav Controls -->
+  <footer class="controls-wrapper">
+    <button class="nav-btn" id="prevBtn" title="이전 (← 키)">◀</button>
+    <div class="slide-counter" id="slideCounter">1 / 8</div>
+    <button class="nav-btn" id="nextBtn" title="다음 (→ 키, 스페이스)">▶</button>
+  </footer>
+
+  <div class="keyboard-hint">키보드 방향키(◀, ▶) 또는 스페이스바로 슬라이드를 넘길 수 있습니다.</div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const counter = document.getElementById('slideCounter');
+    const progressBar = document.getElementById('progressBar');
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+
+    function updateSlide(index) {
+      if (index < 0 || index >= totalSlides) return;
+      slides.forEach((slide, idx) => {
+        slide.classList.toggle('active', idx === index);
+      });
+      currentIndex = index;
+      counter.textContent = `${currentIndex + 1} / ${totalSlides}`;
+      progressBar.style.width = `${((currentIndex + 1) / totalSlides) * 100}%`;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) updateSlide(currentIndex - 1);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex < totalSlides - 1) updateSlide(currentIndex + 1);
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        if (currentIndex < totalSlides - 1) updateSlide(currentIndex + 1);
+      } else if (e.key === 'ArrowLeft') {
+        if (currentIndex > 0) updateSlide(currentIndex - 1);
+      }
+    });
+
+    // Initial setup
+    updateSlide(0);
+  </script>
+</body>
+</html>
