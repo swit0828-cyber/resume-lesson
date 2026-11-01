@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>바이브 코딩 2시간 완성반 - 실전 강의 슬라이드</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0f172a 60%, #020617 100%);
+      --accent-purple: #8b5cf6;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-hover: rgba(255, 255, 255, 0.08);
+      --card-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    html {
+      font-size: 19px; /* 전체 글자 크기 기준 (기본 16px) */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* Top Progress Bar */
+    .progress-bar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 100;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 9%;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Slide Viewport */
+    .slider-viewport {
+      position: relative;
+      width: 94vw;
+      max-width: 1240px;
+      height: 84vh;
+      max-height: 760px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 40px 50px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(24px);
+      border-radius: 24px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px) scale(0.98);
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
+      width: fit-content;
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: #c4b5fd;
+    }
+
+    .badge.cyan {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: rgba(6, 182, 212, 0.3);
+      color: #67e8f9;
+    }
+
+    .badge.emerald {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #6ee7b7;
+    }
+
+    .badge.amber {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.3);
+      color: #fcd34d;
+    }
+
+    h1.hero-title {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.18;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h2.slide-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    p.slide-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    /* Split Slide Layout (Text + Screenshot) */
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 28px;
+      align-items: center;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
+    .split-layout.reversed {
+      grid-template-columns: 1fr 1.15fr;
+    }
+
+    .text-column {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow-y: auto;
+      max-height: 100%;
+      padding-right: 8px;
+    }
+
+    .image-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 100%;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+
+    /* Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      padding: 18px 20px;
+      border-radius: 14px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(139, 92, 246, 0.4);
+      background: var(--glass-hover);
+    }
+
+    .card-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* Screenshot Component */
+    .screenshot-card {
+      background: #090d16;
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
+      transition: all 0.2s ease;
+    }
+
+    .screenshot-card:hover {
+      border-color: rgba(139, 92, 246, 0.5);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(139, 92, 246, 0.35);
+    }
+
+    .screenshot-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      max-height: 250px;
+    }
+
+    .screenshot-img.large {
+      max-height: 380px;
+    }
+
+    .screenshot-caption {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      background: rgba(15, 23, 42, 0.9);
+      border-top: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Code Box & Callout */
+    .code-box {
+      background: #090d16;
+      border: 1px solid #1e293b;
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.85rem;
+      color: #38bdf8;
+      line-height: 1.55;
+      overflow-x: auto;
+    }
+
+    .quote-box {
+      border-left: 4px solid var(--accent-purple);
+      padding: 10px 14px;
+      background: rgba(139, 92, 246, 0.08);
+      border-radius: 0 10px 10px 0;
+      color: #e2e8f0;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .quote-box.amber {
+      border-color: var(--accent-amber);
+      background: rgba(245, 158, 11, 0.08);
+    }
+
+    .quote-box.rose {
+      border-color: var(--accent-rose);
+      background: rgba(244, 63, 94, 0.08);
+    }
+
+    /* Click-step items (PPT 애니메이션처럼 단계별 등장) */
+    .step-item {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .step-item.shown {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* OCR Demo */
+    .ocr-layout {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .ocr-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .ocr-box {
+      --ocr-size: min(340px, 40vh);
+      width: var(--ocr-size);
+      height: var(--ocr-size);
+      overflow: hidden;
+      border-radius: 14px;
+      border: 2px solid rgba(6, 182, 212, 0.5);
+      background: #f8fafc;
+      box-shadow: 0 0 0 6px rgba(6, 182, 212, 0.08);
+    }
+    .ocr-grid {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(40, 1fr);
+      grid-template-rows: repeat(40, 1fr);
+      transform-origin: 0 0;
+      transition: transform 0.9s cubic-bezier(0.45, 0, 0.2, 1);
+    }
+    .ocr-grid > div {
+      box-shadow: inset 0 0 0 0.5px rgba(15, 23, 42, 0.12);
+    }
+    .ocr-visible {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .ocr-caption {
+      font-size: 1.05rem;
+      font-weight: 600;
+      line-height: 1.5;
+      min-height: 3em;
+      margin-bottom: 12px;
+    }
+    .ocr-caption .hint { display: block; font-size: 0.85rem; font-weight: 400; color: var(--text-muted); }
+    .ocr-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .ocr-bar-row {
+      display: grid;
+      grid-template-columns: 28px 1fr 52px;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+    }
+    .ocr-bar-row .digit { font-weight: 800; text-align: center; color: var(--text-muted); }
+    .ocr-bar-track {
+      height: 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+    }
+    .ocr-bar-fill {
+      height: 100%;
+      width: 0;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.55);
+      transition: width 0.9s cubic-bezier(0.45, 0, 0.2, 1), background 0.4s;
+    }
+    .ocr-bar-row .pct { text-align: right; color: var(--text-muted); }
+    .ocr-bar-row.top .digit,
+    .ocr-bar-row.top .pct { color: #fff; }
+    .ocr-bar-row.top .ocr-bar-fill { background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); }
+    .ocr-bar-row.final .ocr-bar-fill { background: linear-gradient(90deg, var(--accent-emerald), #34d399); }
+    .ocr-note { display: block; margin-top: 4px; font-size: 0.78rem; color: var(--text-muted); }
+
+    /* Next-word slide */
+    .nw-sentence {
+      font-size: 3.2rem;
+      font-weight: 800;
+      text-align: center;
+      margin-top: 18px;
+    }
+    .nw-blank {
+      display: inline-block;
+      width: 4.2em;
+      height: 0.9em;
+      border-bottom: 5px solid var(--accent-cyan);
+      vertical-align: baseline;
+    }
+    .nw-blank.small { width: 6em; border-bottom-width: 3px; height: 1em; }
+    .nw-word {
+      font-weight: 700;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .ocr-bar-row:has(.nw-word) { grid-template-columns: 76px 1fr 52px; }
+    .ocr-bar-row.top .nw-word { color: #fff; }
+    .nw-script {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 1.05rem;
+    }
+    .nw-script .who {
+      display: inline-block;
+      min-width: 56px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .nw-script .who.ai { color: var(--accent-cyan); }
+
+    /* 설치 표 */
+    .install-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    .install-table th,
+    .install-table td {
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .install-table th { color: var(--text-muted); font-weight: 600; }
+    .install-table td:first-child { font-weight: 700; white-space: nowrap; }
+
+    /* 실제 대화 로그 */
+    .chat-log { margin-top: 0; font-size: 1rem; line-height: 1.5; }
+    .chat-log > div { position: relative; padding-left: 46px; }
+    .chat-log .who { position: absolute; left: 0; top: 0.25em; min-width: 0; }
+    .nw-script .who.me { color: var(--accent-amber); }
+    .hint-inline { color: var(--text-muted); font-size: 0.85em; }
+
+    /* 작업 흐름 */
+    .flow { display: flex; align-items: stretch; gap: 8px; margin-top: 8px; }
+    .flow-step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 14px 6px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--glass-border);
+      font-weight: 700;
+      text-align: center;
+    }
+    .flow-step b { color: var(--accent-cyan); }
+    .flow-step span { font-size: 0.8rem; font-weight: 500; color: var(--text-muted); }
+    .flow-arrow { align-self: center; color: var(--text-muted); }
+    .ctx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* 확인 순환 */
+    .loop { display: flex; flex-direction: column; gap: 6px; }
+    .loop-step {
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      font-size: 1.05rem;
+    }
+    .loop-step.rose { border-left: 4px solid var(--accent-rose); }
+    .loop-step .who { display: inline-block; min-width: 40px; font-size: 0.8rem; font-weight: 700; }
+    .loop-step .who.ai { color: var(--accent-cyan); }
+    .loop-step .who.me { color: var(--accent-amber); }
+    .loop-arrow { padding-left: 18px; color: var(--text-muted); font-size: 0.9rem; }
+    .role-table td { width: 50%; font-weight: 400 !important; white-space: normal !important; }
+
+    .badge.rose-badge {
+      background: rgba(244, 63, 94, 0.15);
+      border-color: rgba(244, 63, 94, 0.35);
+      color: #fda4af;
+    }
+    .prompt-card {
+      padding: 20px 24px;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 4px solid var(--accent-amber);
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+    .prompt-card .who { display: block; font-size: 0.8rem; font-weight: 700; color: var(--accent-amber); margin-bottom: 6px; }
+    .loop-step b { color: var(--accent-cyan); }
+
+    /* Bottom Controls */
+    .controls-wrapper {
+      position: fixed;
+      bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.75);
+      padding: 8px 18px;
+      border-radius: 9999px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.15rem;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .slide-counter {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* 표지 Slido QR */
+    .qr-pair {
+      position: absolute;
+      top: 32px;
+      right: 40px;
+      display: flex;
+      gap: 20px;
+    }
+    .slido-qr {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .slido-qr img {
+      width: min(150px, 18vh);
+      height: auto;
+      padding: 8px;
+      border-radius: 12px;
+      background: #fff;
+    }
+    .slido-qr strong { color: #fff; }
+
+    .slide-counter { cursor: pointer; padding: 4px 8px; border-radius: 8px; }
+    .slide-counter:hover { background: rgba(255, 255, 255, 0.1); }
+
+    /* 장 바로가기 목록 */
+    .jump-menu {
+      position: fixed;
+      bottom: 76px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+      width: min(520px, 92vw);
+      max-height: 60vh;
+      overflow-y: auto;
+      padding: 8px;
+      border-radius: 16px;
+      background: #0f172a;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .jump-menu[hidden] { display: none; }
+    .jump-item {
+      display: flex;
+      gap: 12px;
+      align-items: baseline;
+      width: 100%;
+      text-align: left;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 10px;
+      background: none;
+      color: var(--text-main);
+      font: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .jump-item:hover { background: rgba(255, 255, 255, 0.08); }
+    .jump-item.current { background: rgba(139, 92, 246, 0.25); }
+    .jump-item .no { flex: 0 0 26px; font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--accent-cyan); text-align: right; }
+    .jump-item .tt { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .keyboard-hint {
+      position: fixed;
+      bottom: 8px;
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Main Slide Viewport -->
+  <main class="slider-viewport">
+
+    <!-- Slide 1: 타이틀 -->
+    <section class="slide active" data-index="1">
+      <div class="qr-pair">
+        <div class="slido-qr">
+          <img src="./images/check_qr.png" alt="진도 체크 QR">
+          <div><strong>진도 체크</strong></div>
+        </div>
+        <div class="slido-qr">
+          <img src="./images/slido_qr.png" alt="Slido QR">
+          <div>Q&amp;A · Slido <strong>#1253102</strong></div>
+        </div>
+      </div>
+      <div class="badge">2 Hours Workshop</div>
+      <h1 class="hero-title">바이브 코딩으로 완성하는<br>첫 풀스택 웹서비스</h1>
+      <p class="slide-subtitle">문법 암기 없이, 2시간 만에 DB 연동 투두리스트부터 내 이력서 배포까지</p>
+      
+      <div class="grid-3">
+        <div class="feature-card">
+          <div class="card-title">⚡ 1. 마인드셋 & 환경</div>
+          <div class="card-desc">코더에서 AI 디렉터로 전환, Git 계정 충돌 방지 셋업</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-title">🗄️ 2. Supabase 실시간 DB</div>
+          <div class="card-desc">클라우드 PostgreSQL에 3줄 SQL로 테이블과 RLS 연동</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-title">🚀 3. Vercel 배포 & 이력서</div>
+          <div class="card-desc">Config vs Secret 원리 이해 및 포트폴리오 사이트 확장</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2: AI는 확률로 말한다 (OCR 줌아웃 데모, 클릭 단계 진행) -->
+    <section class="slide" data-index="2" id="ocrSlide" data-steps="3">
+      <div class="badge cyan">Section 1 · AI는 무엇인가</div>
+      <h2 class="slide-title">이 숫자는 무엇일까요? — AI는 '확률'로 말한다</h2>
+      <p class="slide-subtitle">OCR(글자 인식)은 픽셀이 <strong>어느 위치에</strong> 칠해져 있는지를 보고 각 숫자일 확률을 계산합니다</p>
+
+      <div class="ocr-layout">
+        <div class="ocr-left">
+          <div class="ocr-box">
+            <div class="ocr-grid" id="ocrGrid"></div>
+          </div>
+          <div class="ocr-visible" id="ocrVisible">보이는 픽셀: 0%</div>
+        </div>
+
+        <div class="ocr-right">
+          <div class="ocr-bars" id="ocrBars"></div>
+        </div>
+      </div>
+
+      <div class="quote-box step-item" data-step="3" style="margin-top: 14px;">
+        💡 <strong>AI는 '아는' 게 아니라, 보이는 정보로 가장 그럴듯한 답을 확률로 고릅니다.</strong>
+        보이는 정보(맥락)가 많을수록 정확해집니다. → 그래서 AI에게는 <strong>맥락을 충분히</strong> 줘야 합니다.
+      </div>
+    </section>
+
+    <!-- Slide 3: 다음 말 예측 (오늘 날씨는 ___) + 대본 학습, 클릭 단계 진행 -->
+    <section class="slide" data-index="3" data-steps="2">
+      <div class="badge cyan">Section 1 · AI는 무엇인가</div>
+
+      <div class="nw-sentence">오늘 날씨는 <span class="nw-blank"></span></div>
+
+      <div class="grid-2" style="margin-top: 26px; align-items: start;">
+        <div class="feature-card step-item" data-step="1">
+          <div class="card-title">🤖 AI도 똑같이 — 다음 말의 확률</div>
+          <div class="ocr-bars" style="margin-top: 12px;">
+            <div class="ocr-bar-row top"><span class="nw-word">맑다</span><div class="ocr-bar-track"><div class="ocr-bar-fill" style="width: 28%"></div></div><span class="pct">28%</span></div>
+            <div class="ocr-bar-row"><span class="nw-word">어때요?</span><div class="ocr-bar-track"><div class="ocr-bar-fill" style="width: 20%"></div></div><span class="pct">20%</span></div>
+            <div class="ocr-bar-row"><span class="nw-word">좋다</span><div class="ocr-bar-track"><div class="ocr-bar-fill" style="width: 18%"></div></div><span class="pct">18%</span></div>
+            <div class="ocr-bar-row"><span class="nw-word">흐리다</span><div class="ocr-bar-track"><div class="ocr-bar-fill" style="width: 14%"></div></div><span class="pct">14%</span></div>
+            <div class="ocr-bar-row"><span class="nw-word">춥다</span><div class="ocr-bar-track"><div class="ocr-bar-fill" style="width: 9%"></div></div><span class="pct">9%</span></div>
+            <div class="ocr-bar-row"><span class="nw-word">덥다</span><div class="ocr-bar-track"><div class="ocr-bar-fill" style="width: 6%"></div></div><span class="pct">6%</span></div>
+            <div class="ocr-bar-row"><span class="nw-word">기타</span><div class="ocr-bar-track"><div class="ocr-bar-fill" style="width: 5%"></div></div><span class="pct">5%</span></div>
+          </div>
+        </div>
+
+        <div class="feature-card step-item" data-step="2">
+          <div class="card-title">📜 요즘 AI는 '대본'을 공부했다</div>
+          <div class="nw-script">
+            <div><span class="who">사용자</span> 오늘 날씨 어때?</div>
+            <div><span class="who ai">AI</span> <span class="nw-blank small"></span></div>
+          </div>
+          <div class="card-desc" style="margin-top: 12px;">
+            원리는 같다 — <strong>다음 말을 확률로 고른다</strong><br>
+            다만 '질문 → 대답' 대본을 공부해서, <strong>대답하는 역할의 다음 대사</strong>를 고른다
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4: AI는 도구다 (배트 비유) -->
+    <section class="slide" data-index="4">
+      <div class="badge amber">Section 1 · 마인드셋</div>
+      <h2 class="slide-title">AI는 도구다 — 배트를 혼내는 타자는 없다</h2>
+      <p class="slide-subtitle">AI는 확률로 답하는 도구입니다. 틀렸을 때 필요한 건 화풀이가 아니라 <strong>더 나은 지시</strong>입니다</p>
+
+      <div class="grid-2">
+        <div class="feature-card" style="border-left: 4px solid var(--accent-amber);">
+          <div class="card-title">⚾ 타자와 배트</div>
+          <div class="card-desc">
+            • 안타를 못 치고 아웃 → 화가 나서 <strong>배트를 부순다</strong><br>
+            • 그런데 배트가 잘못했나요? 배트는 <strong>휘두른 대로</strong> 맞았을 뿐<br>
+            • 다음 타석에 필요한 건 새 배트가 아니라 <strong>스윙 교정</strong><br>
+            • <em>배트를 혼내는 건 그냥 내 분풀이</em>
+          </div>
+        </div>
+        <div class="feature-card" style="border-left: 4px solid var(--accent-cyan);">
+          <div class="card-title">🤖 사람과 AI</div>
+          <div class="card-desc">
+            • AI가 엉뚱한 답 → 화가 나서 <strong>욕설을 쓴다</strong><br>
+            • 그런데 AI가 반성할까요? AI는 <strong>확률로 다음 답을 고를 뿐</strong><br>
+            • 욕설은 AI에게 <strong>아무 정보도 주지 않음</strong> → 결과는 그대로<br>
+            • <em>AI는 친구도 적도 아닌 도구 — 인격체로 대하지 말 것</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="quote-box amber" style="margin-top: 16px;">
+        💡 <strong>AI가 틀렸을 때의 '스윙 교정'</strong>: ① 무엇이 틀렸는지 ② 원하는 결과가 무엇인지 ③ 에러 메시지·화면을 그대로 전달하기.<br>
+        잘 휘두르는 건 결국 <strong>사람의 몫</strong>입니다.
+      </div>
+    </section>
+
+    <!-- Slide 4: 개념 이해 (바이브 코딩의 본질) -->
+    <section class="slide" data-index="5">
+      <div class="badge cyan">Section 1 · 개념 이해</div>
+      <h2 class="slide-title">바이브 코딩(Vibe Coding)이란?</h2>
+      <p class="slide-subtitle">문법을 외우는 것이 아니라, AI에게 명확한 맥락과 사각지대 없는 의도를 <strong>디렉팅</strong>하는 개발</p>
+
+      <div class="grid-2">
+        <div class="feature-card" style="border-left: 4px solid #ef4444;">
+          <div class="card-title">⚠️ 잘못된 바이브 코딩</div>
+          <div class="card-desc">
+            • <strong>지시의 부재 & 사각지대</strong>: 빈 공간을 AI가 추측하게 방치<br>
+            • "알아서 적당히 만들어줘" 식의 모호한 요청<br>
+            • 플랫폼 하네싱(도구, 터미널, 컨텍스트)을 무시한 소통<br>
+            • <em>현상: 환각이 아니라 지시 결손으로 인한 엉뚱한 결과</em>
+          </div>
+        </div>
+        <div class="feature-card" style="border-left: 4px solid var(--accent-emerald);">
+          <div class="card-title">✨ 올바른 바이브 코딩</div>
+          <div class="card-desc">
+            • <strong>세세한 디렉팅(Directing)</strong>: 의도와 제약조건을 명확히 명시<br>
+            • <strong>스펙 작게 쪼개기</strong>: DB 구조 → 화면 UI → 인터랙션 단계 분할<br>
+            • <strong>도구 기반 피드백</strong>: 에러 로그 공유 및 실시간 시각적 검증<br>
+            • <em>현상: 사각지대를 메워 신뢰성 높은 결과 도출</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="quote-box" style="margin-top: 16px;">
+        💡 <em>"현대 AI 플랫폼의 하네싱(도구 연동, 터미널, 린터)은 이미 강력합니다. 지금 발생하는 오류는 환각이 아니라 <strong>'지시의 사각지대'</strong>에서 생깁니다."</em>
+      </div>
+    </section>
+
+    <!-- Slide 3: 도구 이해 (챗형 vs 에이전트형) -->
+    <section class="slide" data-index="6">
+      <div class="badge cyan">Section 1 · 도구 이해</div>
+      <h2 class="slide-title">💬 챗 vs 🤖 에이전트 — AI 도구는 두 종류다</h2>
+      <p class="slide-subtitle">오늘은 무료 도구로 실습하지만, 도구가 어떻게 나뉘는지는 알고 시작합시다</p>
+
+      <div class="grid-2">
+        <div class="feature-card" style="border-left: 4px solid var(--accent-cyan);">
+          <div class="card-title">💬 챗형 (웹사이트)</div>
+          <div class="card-desc">
+            • <strong>claude.ai · ChatGPT · Gemini</strong><br>
+            • 질문하면 <strong>대답해 주는</strong> 선생님<br>
+            • 코드를 받아서 <strong>내가 복붙하고, 내가 실행하고, 에러도 내가 다시 질문</strong><br>
+            • 서비스마다 특기가 다름: ChatGPT·Gemini는 <strong>이미지 생성</strong> 가능, Claude는 글·코드 설명에 강점
+          </div>
+        </div>
+        <div class="feature-card" style="border-left: 4px solid var(--accent-emerald);">
+          <div class="card-title">🤖 에이전트형 (CLI · IDE)</div>
+          <div class="card-desc">
+            • <strong>안티그래비티(오늘 실습)</strong> · Claude Code · Codex CLI · Gemini CLI<br>
+            • 내 컴퓨터에서 <strong>같이 일하는</strong> 동료<br>
+            • 파일을 직접 읽고 고치고, <strong>직접 실행하고, 에러도 스스로 수정</strong><br>
+            • <em>사람은 지시하고 검토하는 '디렉터' 역할</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="quote-box" style="margin-top: 16px;">
+        💡 <strong>조합 예시:</strong> ChatGPT로 프로필 이미지 생성 → 프로젝트 폴더에 저장 → 안티그래비티에게 <em>"이 사진을 이력서 상단에 넣어줘"</em><br>
+        만들어내기는 <strong>챗</strong>에서, 내 프로젝트에 적용하기는 <strong>에이전트</strong>에게.
+      </div>
+    </section>
+
+    <!-- Slide 4: 현업 이야기 (티끌 모아 티끌) -->
+    <section class="slide" data-index="7">
+      <div class="badge amber">Section 1 · 현업 이야기</div>
+      <h2 class="slide-title">티끌 모아 티끌 — 무료만 모아서는 현업이 안 된다</h2>
+      <p class="slide-subtitle">오늘은 무료로 충분합니다. 하지만 일로 하려면 이야기가 달라집니다</p>
+
+      <div class="grid-2">
+        <div class="feature-card" style="border-left: 4px solid var(--accent-rose);">
+          <div class="card-title">🪙 무료의 현실 = 티끌</div>
+          <div class="card-desc">
+            • 무료 사용량은 <strong>작업 도중에</strong> 끊김: <em>"한도 초과, ○시간 뒤 다시 시도"</em><br>
+            • A 한도가 끝나면 B로, B가 끝나면 C로 옮겨 다님<br>
+            • 옮길 때마다 <strong>처음부터 다시 설명</strong> (맥락이 끊김)<br>
+            • 무료 계정 10개를 모아도 결과는 <strong>티끌 10개</strong>, 태산이 되지 않음
+          </div>
+        </div>
+        <div class="feature-card" style="border-left: 4px solid var(--accent-emerald);">
+          <div class="card-title">🏔️ 현업의 방식 = 끊기지 않는 흐름</div>
+          <div class="card-desc">
+            • 현업 개발자는 <strong>터미널(CLI)에서 에이전트와 하루 종일</strong> 일함<br>
+            • 하나의 도구가 프로젝트 전체 맥락을 들고 <strong>끝까지 이어서</strong> 작업<br>
+            • 한도 걱정 없이 만들고 → 실행하고 → 고치고를 수십 번 반복<br>
+            • 목표는 웹페이지 하나가 아니라 <strong>이 흐름에 익숙한 사람</strong>이 되는 것
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 실습 1: 설치 -->
+    <section class="slide" data-index="8">
+      <div class="badge">Section 2 · 설치</div>
+      <h2 class="slide-title">설치 — 안티그래비티 · GitHub · GitHub Desktop</h2>
+
+      <div class="grid-3">
+        <div class="feature-card">
+          <div class="card-title">① 안티그래비티 설치</div>
+          <div class="card-desc">공식 사이트에서 설치 파일 다운로드 → 설치 → 로그인</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-title">② GitHub 가입</div>
+          <div class="card-desc">github.com 가입<br>Supabase · Vercel은 이 계정으로 로그인</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-title">③ GitHub Desktop 설치</div>
+          <div class="card-desc">desktop.github.com 설치 → GitHub 계정으로 로그인</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 실습 2: 폴더 세팅 -->
+    <section class="slide" data-index="9">
+      <div class="badge rose-badge">Section 2 · 폴더 세팅 (중요)</div>
+      <h2 class="slide-title">폴더 정리는 필수 — projects 아래에 만들기</h2>
+
+      <div class="grid-2" style="align-items: center;">
+        <pre class="code-box" style="white-space: pre; margin: 0; font-size: 1.05rem; overflow: hidden;">문서/
+└─ projects/       ← 모든 프로젝트
+   └─ todo-list/   ← 오늘 실습</pre>
+        <div class="loop">
+          <div class="loop-step"><b>1</b>&nbsp; <code>projects</code> 폴더 만들기</div>
+          <div class="loop-step"><b>2</b>&nbsp; 그 아래 <code>todo-list</code> 폴더 만들기</div>
+          <div class="loop-step"><b>3</b>&nbsp; 안티그래비티에서 <code>todo-list</code> 폴더 열기</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 실습 3: 상황 알리고 환경 검토 -->
+    <section class="slide" data-index="10">
+      <div class="badge cyan">Section 2 · 환경 검토</div>
+      <h2 class="slide-title">AI에게 상황을 알리고, 환경 검토 맡기기</h2>
+
+      <div class="prompt-card">
+        <span class="who me">지시</span>
+        Vercel과 Supabase를 사용해서 투두리스트를 만들고 배포할 거야.<br>
+        이 작업에 필요한 개발 환경이 내 컴퓨터에 갖춰져 있는지 검토해줘.
+      </div>
+
+      <div class="grid-2" style="margin-top: 18px;">
+        <div class="feature-card">
+          <div class="card-title">🔍 AI가 확인하는 것</div>
+          <div class="card-desc">Node.js · npm · Git · Git 사용자 이름/이메일</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-title">🔄 설치했다면</div>
+          <div class="card-desc">안티그래비티를 껐다 켜기 (새로 설치한 프로그램 인식)</div>
+        </div>
+      </div>
+
+      <div class="quote-box" style="margin-top: 16px;">✋ 여기까지는 <strong>모두 같이</strong> 진행</div>
+    </section>
+
+    <!-- 실습 4: 투두리스트 만들기 (각자) -->
+    <section class="slide" data-index="11">
+      <div class="badge cyan">Section 3 · 투두리스트</div>
+      <h2 class="slide-title">투두리스트 만들기 — 프롬프트는 각자</h2>
+
+      <div class="split-layout">
+        <div class="text-column">
+          <div class="ctx-grid">
+            <div class="feature-card"><div class="card-title">무엇을</div><div class="card-desc">투두리스트</div></div>
+            <div class="feature-card"><div class="card-title">어디에</div><div class="card-desc"><code>projects/todo-list</code></div></div>
+            <div class="feature-card"><div class="card-title">무엇으로</div><div class="card-desc">Supabase · Vercel</div></div>
+            <div class="feature-card" style="border-left: 4px solid var(--accent-cyan);"><div class="card-title">반드시</div><div class="card-desc">추가 · 조회 · 수정 · 삭제 (CRUD)</div></div>
+          </div>
+        </div>
+        <div class="image-column">
+          <div class="screenshot-card">
+            <img src="./images/13_todo_app_initial.png" alt="Todo App" class="screenshot-img large">
+            <div class="screenshot-caption">📷 예시</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 확인은 AI에게, 판단은 내가 -->
+    <section class="slide" data-index="12">
+      <div class="badge cyan">Section 3 · 실행</div>
+      <h2 class="slide-title">확인은 AI에게, 판단은 내가</h2>
+
+      <div class="split-layout">
+        <div class="text-column">
+          <div class="loop">
+            <div class="loop-step"><span class="who ai">AI</span> 실행 <code>npm install</code> · <code>npm run dev</code></div>
+            <div class="loop-arrow">↓</div>
+            <div class="loop-step"><span class="who ai">AI</span> 브라우저를 열어 화면 확인</div>
+            <div class="loop-arrow">↓</div>
+            <div class="loop-step"><span class="who me">나</span> 원하는 결과인지 판단</div>
+            <div class="loop-arrow">↓ 아니라면</div>
+            <div class="loop-step rose"><span class="who me">나</span> 에러 메시지 · 화면을 <strong>그대로</strong> 전달 → 다시 처음으로</div>
+          </div>
+        </div>
+
+        <div class="image-column">
+          <div class="screenshot-card">
+            <img src="./images/13_todo_app_initial.png" alt="Todo App Initial" class="screenshot-img">
+            <div class="screenshot-caption">📷 키 입력 전</div>
+          </div>
+          <div class="screenshot-card">
+            <img src="./images/14_todo_app_live.png" alt="Todo App Live" class="screenshot-img">
+            <div class="screenshot-caption">📷 키 입력 후</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4: Supabase 1단계 (조직 및 프로젝트 생성) -->
+    <section class="slide" data-index="13">
+      <div class="badge emerald">Section 3 · Supabase 1</div>
+      <h2 class="slide-title">Supabase 1: 가입 · 프로젝트 만들기</h2>
+
+      <div class="split-layout">
+        <div class="text-column">
+          <div class="feature-card">
+            <div class="card-title">1. Organization 생성</div>
+            <div class="card-desc">Name에 닉네임 입력, Type: Personal, Plan: Free - $0/month 선택 후 [Create organization]</div>
+          </div>
+          <div class="feature-card">
+            <div class="card-title">2. Region 인시던트 주의!</div>
+            <div class="card-desc">
+              화면에 <code>Incident in progress</code> 경고가 뜨면 해당 리전 생성에 문제가 있을 수 있습니다. 드롭다운에서 <strong>Seoul (ap-northeast-2)</strong> 또는 Tokyo를 직접 지정하세요.
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="card-title">3. Enable automatic RLS 체크박스?</div>
+            <div class="card-desc">
+              기본 체크 해제 상태 그대로 두셔도 무방합니다. 우리는 SQL 스크립트에서 직접 RLS와 정책을 완벽하게 선언할 것이기 때문입니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="image-column">
+          <div class="screenshot-card">
+            <img src="./images/01_supabase_org.png" alt="Supabase Org" class="screenshot-img">
+            <div class="screenshot-caption">📷 New Organization (Free)</div>
+          </div>
+          <div class="screenshot-card">
+            <img src="./images/02_supabase_project.png" alt="Supabase Project" class="screenshot-img">
+            <div class="screenshot-caption">📷 Project 생성</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 실습 6: Supabase 2 (SQL · 키 · 확인) -->
+    <section class="slide" data-index="14">
+      <div class="badge emerald">Section 3 · Supabase 2</div>
+      <h2 class="slide-title">Supabase 2: SQL 실행 · 키 연결 · 값 확인</h2>
+
+      <div class="split-layout">
+        <div class="text-column">
+          <div class="loop">
+            <div class="loop-step"><b>1</b>&nbsp; AI에게 <strong>지금 앱에 맞는 SQL</strong> 작성 요청 (RLS 정책 포함)</div>
+            <div class="loop-step"><b>2</b>&nbsp; SQL Editor에 붙여넣고 <strong>[Run]</strong></div>
+            <div class="loop-step"><b>3</b>&nbsp; Project URL · Publishable Key → <code>.env</code>에 <strong>직접</strong> 붙여넣기</div>
+            <div class="loop-step"><b>4</b>&nbsp; 로컬에서 할 일 추가 → Supabase <strong>Table Editor</strong>에 들어갔는지 확인</div>
+          </div>
+        </div>
+
+        <div class="image-column">
+          <div class="screenshot-card">
+            <img src="./images/03_supabase_dashboard.png" alt="Supabase Dashboard" class="screenshot-img">
+            <div class="screenshot-caption">📷 대시보드 홈의 [API Keys]</div>
+          </div>
+          <div class="screenshot-card">
+            <img src="./images/04_supabase_keys.png" alt="Supabase API Keys" class="screenshot-img">
+            <div class="screenshot-caption">📷 Publishable key 복사</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 실습 7: env 보안 -->
+    <section class="slide" data-index="15">
+      <div class="badge rose-badge">Section 3 · 보안</div>
+      <h2 class="slide-title">🔒 .env 값은 절대 AI에게 보여주지 않는다</h2>
+
+      <div class="grid-3">
+        <div class="feature-card" style="border-left: 4px solid var(--accent-rose);">
+          <div class="card-title">채팅창에 붙이지 않기</div>
+          <div class="card-desc">키는 내가 <code>.env</code> 파일에 직접 붙여넣는다</div>
+        </div>
+        <div class="feature-card" style="border-left: 4px solid var(--accent-rose);">
+          <div class="card-title">읽게 하지 않기</div>
+          <div class="card-desc">AI에게 <code>.env</code>를 열어보라고 하지 않는다</div>
+        </div>
+        <div class="feature-card" style="border-left: 4px solid var(--accent-rose);">
+          <div class="card-title">올리지 않기</div>
+          <div class="card-desc"><code>.gitignore</code>에 <code>.env</code>가 있는지 확인</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 실습 8: GitHub 올리기 -->
+    <section class="slide" data-index="16">
+      <div class="badge">Section 3 · GitHub</div>
+      <h2 class="slide-title">GitHub에 올리기 — 내가 할 일 vs AI가 할 일</h2>
+
+      <table class="install-table role-table">
+        <thead>
+          <tr><th>🙋 내가</th><th>🤖 AI가</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>GitHub 사이트에서 새 저장소 만들기 (README 체크 X)</td><td>Git 시작 (<code>git init</code>)</td></tr>
+          <tr><td>저장소 주소 복사 → AI에게 전달</td><td><code>.env</code> 빼고 커밋</td></tr>
+          <tr><td></td><td>그 주소로 푸시 (<code>git push</code>)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 실습 9: Vercel 1 (가입 · 연동 · 배포) -->
+    <section class="slide" data-index="17">
+      <div class="badge emerald">Section 4 · Vercel 1</div>
+      <h2 class="slide-title">Vercel 1: 가입 · GitHub 연동 · 배포</h2>
+
+      <div class="split-layout">
+        <div class="text-column">
+          <div class="loop">
+            <div class="loop-step"><b>1</b>&nbsp; Continue with GitHub → <strong>Hobby (무료)</strong> 선택</div>
+            <div class="loop-step"><b>2</b>&nbsp; Import Git Repository → [Install] → <strong>Only select repositories</strong>에서 내 저장소만</div>
+            <div class="loop-step"><b>3</b>&nbsp; 저장소 [Import] → [Deploy]</div>
+          </div>
+        </div>
+
+        <div class="image-column">
+          <div class="screenshot-card">
+            <img src="./images/05_vercel_plan.png" alt="Vercel Plan" class="screenshot-img">
+            <div class="screenshot-caption">📷 Hobby 선택</div>
+          </div>
+          <div class="screenshot-card">
+            <img src="./images/06_vercel_import.png" alt="Vercel Import" class="screenshot-img">
+            <div class="screenshot-caption">📷 Import Git Repository → Install</div>
+          </div>
+          <div class="screenshot-card">
+            <img src="./images/07_github_install_vercel.png" alt="GitHub Install Vercel" class="screenshot-img">
+            <div class="screenshot-caption">📷 내 저장소만 선택</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 실습 10: Vercel 2 (env · 확인) -->
+    <section class="slide" data-index="18">
+      <div class="badge amber">Section 4 · Vercel 2</div>
+      <h2 class="slide-title">Vercel 2: env 넣고 동작 확인</h2>
+
+      <div class="split-layout">
+        <div class="text-column">
+          <div class="feature-card" style="border-left: 4px solid var(--accent-rose);">
+            <div class="card-title">함정 1: <code>Environments</code> 메뉴 아님</div>
+            <div class="card-desc">'Upgrade to Pro' 팝업 = 유료 기능<br>👉 사이드바 <strong>Environment Variables</strong>로</div>
+          </div>
+          <div class="feature-card" style="border-left: 4px solid var(--accent-rose);">
+            <div class="card-title">함정 2: <code>VITE_</code> 변수는 Config</div>
+            <div class="card-desc">브라우저에 공개되는 값이라 Secret 불가 → <strong>Config</strong>로 등록</div>
+          </div>
+          <div class="feature-card" style="border-left: 4px solid var(--accent-emerald);">
+            <div class="card-title">저장 → Redeploy → 확인</div>
+            <div class="card-desc">배포 주소에서 할 일 추가 → Supabase Table Editor에 들어갔는지 확인</div>
+          </div>
+        </div>
+
+        <div class="image-column">
+          <div class="screenshot-card">
+            <img src="./images/10_vercel_environments_trap.png" alt="Environments Trap" class="screenshot-img">
+            <div class="screenshot-caption">📷 피해야 할 Environments 팝업</div>
+          </div>
+          <div class="screenshot-card">
+            <img src="./images/12_vercel_secret_vs_config_trap.png" alt="Secret Trap" class="screenshot-img">
+            <div class="screenshot-caption">📷 VITE_ 변수 Secret 에러</div>
+          </div>
+          <div class="screenshot-card">
+            <img src="./images/11_vercel_env_vars.png" alt="Env Vars" class="screenshot-img">
+            <div class="screenshot-caption">📷 Environment Variables에서 Config로 등록</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 10: 내 이력서 페이지 확장 -->
+    <section class="slide" data-index="19">
+      <div class="badge">Section 5 · 최종 확장</div>
+      <h2 class="slide-title">내 첫 포트폴리오 & 이력서 사이트로 리뉴얼하기</h2>
+      <p class="slide-subtitle">이미 배포 파이프라인(Git → Vercel)이 뚫렸으므로, 이제 말 한마디면 사이트가 바뀝니다.</p>
+
+      <div class="feature-card" style="margin-bottom: 20px;">
+        <div class="card-title">🗣️ 수강생 이력서 전환 프롬프트</div>
+        <p style="color: #cbd5e1; line-height: 1.6; font-size: 0.95rem;">
+          "현재 웹사이트를 나의 개발자 포트폴리오 & 이력서 사이트로 리뉴얼해줘.<br>
+          • <strong>상단 Hero</strong>: 내 이름(홍길동), 'AI와 협업하는 프론트엔드 지망생' 한 줄 소개 및 GitHub 링크<br>
+          • <strong>About & Skills</strong>: 관심 기술 스택 카드 (HTML/CSS/JS, Supabase, Vercel)<br>
+          • <strong>Project 섹션</strong>: 우리가 방금 만든 'Supabase 실시간 투두리스트'를 메인 데모 프로젝트로 배치"
+        </p>
+      </div>
+
+      <div class="quote-box">
+        🚀 <code>git push</code> 한 번이면 Vercel이 30초 만에 새 이력서로 자동 업데이트 배포합니다.
+      </div>
+    </section>
+
+    <!-- Slide 11: 마무리 및 Q&A -->
+    <section class="slide" data-index="20">
+      <div class="badge cyan">Wrap Up</div>
+      <h1 class="hero-title" style="font-size: 2.6rem;">오늘 여러분은 2시간 만에<br>진짜 풀스택 배포를 완주했습니다</h1>
+      <p class="slide-subtitle">데이터베이스(Supabase) → 웹 프론트엔드 → 자동 배포(Vercel)까지의 파이프라인을 체득했습니다.</p>
+
+      <div class="grid-2">
+        <div class="feature-card">
+          <div class="card-title">💡 바이브 코딩 다음 단계 추천</div>
+          <div class="card-desc">
+            1. 이력서에 내 사진(AI 프로필) 추가하기<br>
+            2. 투두리스트에 마감일(D-day) 및 태그 기능 추가하기<br>
+            3. 방명록(Guestbook) 테이블 하나 더 파서 댓글창 만들기
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="card-title">🙋‍♂️ Q & A 및 피드백</div>
+          <div class="card-desc">
+            질문이나 막히셨던 부분, 더 궁금한 프롬프트 패턴이 있다면 자유롭게 물어보세요!
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Nav Controls -->
+  <footer class="controls-wrapper">
+    <button class="nav-btn" id="prevBtn" title="이전 (← 키)">◀</button>
+    <div class="slide-counter" id="slideCounter">1 / 11</div>
+    <button class="nav-btn" id="nextBtn" title="다음 (→ 키, 스페이스)">▶</button>
+  </footer>
+
+  <nav class="jump-menu" id="jumpMenu" hidden></nav>
+
+  <div class="keyboard-hint">방향키(◀, ▶) · 스페이스바 · 화면 클릭으로 넘기기 · 번호 클릭 또는 숫자+Enter로 바로가기</div>
+
+  <script>
+    // ===== OCR 데모 (슬라이드 2) =====
+    const ocr = (() => {
+      const N = 40;
+      // 손글씨 8 (위 고리 조금 작게). 오른쪽 절반만 보면 3과 똑같이 생김
+      const loops = [
+        { cx: 18.8, cy: 11.2, rx: 4.2, ry: 4.3, rot: -0.12 },
+        { cx: 18.2, cy: 20.6, rx: 5.4, ry: 5.2, rot: -0.12 },
+      ];
+      const distToLoop = (x, y, e) => {
+        const c = Math.cos(e.rot), s = Math.sin(e.rot);
+        const dx = x - e.cx, dy = y - e.cy;
+        const u = dx * c + dy * s, v = -dx * s + dy * c;
+        return Math.abs(Math.hypot(u / e.rx, v / e.ry) - 1) * Math.min(e.rx, e.ry);
+      };
+
+      const grid = document.getElementById('ocrGrid');
+      const inkCells = [];
+      for (let y = 0; y < N; y++) {
+        for (let x = 0; x < N; x++) {
+          let ink = 0;
+          for (let a = 0; a < 4; a++) for (let b = 0; b < 4; b++) {
+            const sx = x + (a + 0.5) / 4, sy = y + (b + 0.5) / 4;
+            if (loops.some((e) => distToLoop(sx, sy, e) < 1.0)) ink++;
+          }
+          const cell = document.createElement('div');
+          const v = ink / 16;
+          if (v > 0.2) inkCells.push([x, y]);
+          if (v > 0) cell.style.background = `rgba(15, 23, 42, ${0.15 + v * 0.85})`;
+          grid.appendChild(cell);
+        }
+      }
+
+      // 단계별 보이는 창 [x0, y0, 크기] (오른쪽 → 왼쪽 순으로 드러남)
+      const views = [[21, 6, 5], [19, 4, 11], [18.5, 5, 21], [5, 3.5, 26], [5, 3.5, 26]];
+      // 단계별 0~9 확률(%) — 맥락 없는 AI 에이전트에게 각 단계 이미지를 따로 보여주고 받은 실제 답
+      const probs = [
+        [6, 22, 10, 4, 12, 6, 10, 18, 6, 6],
+        [30, 7, 5, 15, 2, 8, 2, 10, 6, 15],
+        [2, 0, 2, 45, 0, 3, 0, 0, 45, 3],
+        [2, 0, 0, 1, 0, 0, 1, 0, 94, 2],
+        [2, 0, 0, 1, 0, 0, 1, 0, 94, 2],
+      ];
+
+      const bars = document.getElementById('ocrBars');
+      const rows = [];
+      for (let d = 0; d < 10; d++) {
+        const row = document.createElement('div');
+        row.className = 'ocr-bar-row';
+        row.innerHTML = `<span class="digit">${d}</span><div class="ocr-bar-track"><div class="ocr-bar-fill"></div></div><span class="pct">0%</span>`;
+        bars.appendChild(row);
+        rows.push(row);
+      }
+      const visible = document.getElementById('ocrVisible');
+
+      const fills = () => bars.querySelectorAll('.ocr-bar-fill');
+
+      return function render(step, instant = false) {
+        // 슬라이드에 들어오는 순간에는 애니메이션 없이 바로 해당 단계 상태로
+        if (instant) {
+          grid.style.transition = 'none';
+          fills().forEach((f) => (f.style.transition = 'none'));
+        }
+        const [x0, y0, w] = views[step];
+        grid.style.transform = `scale(${N / w}) translate(${(-x0 * 100) / N}%, ${(-y0 * 100) / N}%)`;
+        const seen = inkCells.filter(([x, y]) => x + 1 > x0 && x < x0 + w && y + 1 > y0 && y < y0 + w).length;
+        visible.textContent = `보이는 픽셀: ${Math.round((seen / inkCells.length) * 100)}%`;
+        const p = probs[step];
+        const max = Math.max(...p);
+        rows.forEach((row, d) => {
+          row.querySelector('.ocr-bar-fill').style.width = `${p[d]}%`;
+          row.querySelector('.pct').textContent = `${p[d]}%`;
+          row.classList.toggle('top', p[d] === max);
+          row.classList.toggle('final', step >= 3 && p[d] === max);
+        });
+        if (instant) {
+          void grid.offsetWidth; // 즉시 적용 후 트랜지션 복구
+          grid.style.transition = '';
+          fills().forEach((f) => (f.style.transition = ''));
+        }
+      };
+    })();
+
+    const stepHandlers = { ocrSlide: ocr };
+
+    // ===== 슬라이드 내비게이션 (슬라이드 안 클릭 단계 지원) =====
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const counter = document.getElementById('slideCounter');
+    const progressBar = document.getElementById('progressBar');
+    const totalSlides = slides.length;
+    let currentIndex = 0;
+    let currentStep = 0;
+
+    const maxStep = (slide) => parseInt(slide.dataset.steps || '0', 10);
+
+    function renderStep(instant = false) {
+      const slide = slides[currentIndex];
+      slide.querySelectorAll('.step-item').forEach((el) => {
+        el.classList.toggle('shown', currentStep >= parseInt(el.dataset.step, 10));
+      });
+      const handler = stepHandlers[slide.id];
+      if (handler) handler(currentStep, instant);
+    }
+
+    function updateSlide(index, step = 0) {
+      if (index < 0 || index >= totalSlides) return;
+      slides.forEach((slide, idx) => slide.classList.toggle('active', idx === index));
+      currentIndex = index;
+      currentStep = step;
+      counter.textContent = `${currentIndex + 1} / ${totalSlides}`;
+      progressBar.style.width = `${((currentIndex + 1) / totalSlides) * 100}%`;
+      try { history.replaceState(null, '', `#${currentIndex + 1}`); } catch (e) {}
+      renderStep(true);
+    }
+
+    function next() {
+      if (currentStep < maxStep(slides[currentIndex])) {
+        currentStep++;
+        renderStep();
+      } else if (currentIndex < totalSlides - 1) {
+        updateSlide(currentIndex + 1, 0);
+      }
+    }
+
+    function prev() {
+      if (currentStep > 0) {
+        currentStep--;
+        renderStep();
+      } else if (currentIndex > 0) {
+        // 이전 슬라이드로 돌아가면 모든 단계가 펼쳐진 상태로
+        updateSlide(currentIndex - 1, maxStep(slides[currentIndex - 1]));
+      }
+    }
+
+    prevBtn.addEventListener('click', prev);
+    nextBtn.addEventListener('click', next);
+
+    // ===== 장 바로가기 (번호 클릭 → 목록 / 숫자 입력 + Enter / 주소 #번호) =====
+    const jumpMenu = document.getElementById('jumpMenu');
+    slides.forEach((slide, i) => {
+      const t = slide.querySelector('.slide-title, .hero-title, .nw-sentence');
+      const title = t ? t.textContent.replace(/\s+/g, ' ').trim() : `슬라이드 ${i + 1}`;
+      const item = document.createElement('button');
+      item.className = 'jump-item';
+      item.innerHTML = `<span class="no">${i + 1}</span><span class="tt"></span>`;
+      item.querySelector('.tt').textContent = title;
+      item.addEventListener('click', () => { goTo(i); closeJump(); });
+      jumpMenu.appendChild(item);
+    });
+    function goTo(i) { updateSlide(i, 0); }
+    function openJump() {
+      jumpMenu.hidden = false;
+      jumpMenu.querySelectorAll('.jump-item').forEach((el, i) => el.classList.toggle('current', i === currentIndex));
+      jumpMenu.querySelector('.current')?.scrollIntoView({ block: 'center' });
+    }
+    function closeJump() { jumpMenu.hidden = true; }
+    counter.addEventListener('click', (e) => {
+      e.stopPropagation();
+      jumpMenu.hidden ? openJump() : closeJump();
+    });
+    document.addEventListener('click', (e) => {
+      if (!jumpMenu.hidden && !jumpMenu.contains(e.target)) closeJump();
+    });
+
+    let typed = '';
+    let typedTimer = null;
+
+    window.addEventListener('keydown', (e) => {
+      if (/^[0-9]$/.test(e.key)) {
+        typed += e.key;
+        counter.textContent = `→ ${typed}`;
+        clearTimeout(typedTimer);
+        typedTimer = setTimeout(() => { typed = ''; updateSlide(currentIndex, currentStep); }, 2000);
+        return;
+      }
+      if (e.key === 'Enter' && typed) {
+        const n = parseInt(typed, 10);
+        typed = '';
+        clearTimeout(typedTimer);
+        if (n >= 1 && n <= totalSlides) goTo(n - 1);
+        else updateSlide(currentIndex, currentStep);
+        return;
+      }
+      if (e.key === 'Escape') { closeJump(); return; }
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        next();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prev();
+      }
+    });
+
+    // 화면 클릭으로도 다음 단계 (링크·버튼·코드 영역 클릭은 제외)
+    document.querySelector('.slider-viewport').addEventListener('click', (e) => {
+      if (e.target.closest('a, button, input, textarea, pre, code')) return;
+      if (window.getSelection().toString()) return;
+      next();
+    });
+
+    // Initial setup
+    ocr(0, true); // OCR 슬라이드는 처음부터 확대된 상태로 대기
+    // 주소에 #번호가 있으면 그 장에서 시작 (새로고침해도 보던 장 유지)
+    const startNo = parseInt(location.hash.slice(1), 10);
+    updateSlide(startNo >= 1 && startNo <= totalSlides ? startNo - 1 : 0);
+  </script>
+</body>
+</html>
