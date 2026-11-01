@@ -556,30 +556,28 @@
       letter-spacing: 0.05em;
     }
 
-    /* 표지 Slido QR */
-    .qr-pair {
-      position: absolute;
-      top: 32px;
-      right: 40px;
+    /* 상시 QR (화면 아래 양쪽 빈 공간) */
+    .fixed-qr {
+      position: fixed;
+      bottom: 6px;
+      z-index: 90;
       display: flex;
-      gap: 20px;
-    }
-    .slido-qr {
-      display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 8px;
-      font-size: 0.85rem;
+      gap: 10px;
+      font-size: 0.8rem;
       color: var(--text-muted);
+      line-height: 1.3;
     }
-    .slido-qr img {
-      width: min(150px, 18vh);
+    .fixed-qr.left { left: max(12px, calc((100vw - min(94vw, 1240px)) / 2)); }
+    .fixed-qr.right { right: max(12px, calc((100vw - min(94vw, 1240px)) / 2)); flex-direction: row-reverse; text-align: right; }
+    .fixed-qr img {
+      width: clamp(48px, calc((100vh - min(84vh, 760px)) / 2 - 12px), 150px);
       height: auto;
-      padding: 8px;
-      border-radius: 12px;
+      padding: 4px;
+      border-radius: 8px;
       background: #fff;
     }
-    .slido-qr strong { color: #fff; }
+    .fixed-qr strong { color: #fff; }
 
     .slide-counter { cursor: pointer; padding: 4px 8px; border-radius: 8px; }
     .slide-counter:hover { background: rgba(255, 255, 255, 0.1); }
@@ -644,16 +642,6 @@
 
     <!-- Slide 1: 타이틀 -->
     <section class="slide active" data-index="1">
-      <div class="qr-pair">
-        <div class="slido-qr">
-          <img src="./images/check_qr.png" alt="진도 체크 QR">
-          <div><strong>진도 체크</strong></div>
-        </div>
-        <div class="slido-qr">
-          <img src="./images/slido_qr.png" alt="Slido QR">
-          <div>Q&amp;A · Slido <strong>#1253102</strong></div>
-        </div>
-      </div>
       <div class="badge">2 Hours Workshop</div>
       <h1 class="hero-title">바이브 코딩으로 완성하는<br>첫 풀스택 웹서비스</h1>
       <p class="slide-subtitle">문법 암기 없이, 2시간 만에 DB 연동 투두리스트부터 내 이력서 배포까지</p>
@@ -1196,6 +1184,16 @@
     </section>
 
   </main>
+
+  <!-- 상시 QR -->
+  <div class="fixed-qr left">
+    <img src="./images/check_qr.png" alt="진도 체크 QR">
+    <div><strong>진도 체크</strong></div>
+  </div>
+  <div class="fixed-qr right">
+    <img src="./images/slido_qr.png" alt="Slido QR">
+    <div>Q&amp;A · Slido<br><strong>#1253102</strong></div>
+  </div>
 
   <!-- Bottom Nav Controls -->
   <footer class="controls-wrapper">
