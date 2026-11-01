@@ -27,9 +27,8 @@ export default function Student() {
 
   return (
     <div className="cc-wrap student">
-      <div className="cc-label">현재 {step}단계</div>
       <p className="cc-guide">
-        {isDone ? '완료했어요! 강사가 다음으로 넘어갈 때까지 기다려주세요.' : '이해했거나 따라 했다면 아래 버튼을 눌러주세요.'}
+        {isDone ? '완료했어요!' : '이해했거나 따라 했다면 아래 버튼을 눌러주세요.'}
       </p>
       <button className={`cc-big ${isDone ? 'done' : ''}`} disabled={busy} onClick={toggle}>
         {isDone ? '✓ 완료됨' : '완료'}

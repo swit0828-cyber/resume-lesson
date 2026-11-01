@@ -20,32 +20,27 @@ export default function Teacher() {
     if (session && totalInput === '') setTotalInput(String(session.total_students || ''))
   }, [session])
 
-  const updateSession = async (patch) => {
+  const saveTotal = async (e) => {
+    e.preventDefault()
+    const n = parseInt(totalInput, 10)
+    if (!Number.isFinite(n) || n < 1) return alert('1 이상의 숫자를 입력하세요')
     setBusy(true)
     const { error } = await supabase
       .from('class_session')
-      .update({ ...patch, updated_at: new Date().toISOString() })
+      .update({ total_students: n, updated_at: new Date().toISOString() })
       .eq('id', 1)
     setBusy(false)
     if (error) alert('저장 실패: ' + error.message)
     refresh()
   }
 
-  const saveTotal = (e) => {
-    e.preventDefault()
-    const n = parseInt(totalInput, 10)
-    if (!Number.isFinite(n) || n < 1) return alert('1 이상의 숫자를 입력하세요')
-    updateSession({ total_students: n })
-  }
-
-  const goStep = (step) => updateSession({ current_step: Math.max(1, step) })
-
-  const resetAll = async () => {
-    if (!confirm('처음(1단계)으로 돌리고 모든 완료 기록을 지울까요?')) return
+  // 클리어: 지금까지 누른 완료 체크를 모두 비움
+  const clearChecks = async () => {
     setBusy(true)
-    await supabase.from('class_checks').delete().gte('step', 0)
+    const { error } = await supabase.from('class_checks').delete().gte('step', 0)
     setBusy(false)
-    updateSession({ current_step: 1 })
+    if (error) alert('클리어 실패: ' + error.message)
+    refresh()
   }
 
   if (!isConfigured) return <div className="cc-wrap"><p>.env에 Supabase 설정이 필요합니다.</p></div>
@@ -59,19 +54,16 @@ export default function Teacher() {
 
   return (
     <div className="cc-wrap">
-      <div className="cc-label">강사용 · {session.current_step}단계</div>
+      <div className="cc-label">강사용</div>
 
       <div className={`cc-count ${full ? 'full' : ''}`}>
         {done}<span> / {total || '?'}</span>
       </div>
       <div className="cc-bar"><div style={{ width: `${pct}%` }} /></div>
-      <div className="cc-muted">{full ? '전원 완료! 넘어가도 좋아요' : `${Math.max(0, total - done)}명 남음`}</div>
+      <div className="cc-muted">{full ? '전원 완료!' : `${Math.max(0, total - done)}명 남음`}</div>
 
-      <button className="cc-btn primary" disabled={busy} onClick={() => goStep(session.current_step + 1)}>
-        다음 페이지 →
-      </button>
-      <button className="cc-btn ghost" disabled={busy || session.current_step <= 1} onClick={() => goStep(session.current_step - 1)}>
-        ← 이전 단계
+      <button className="cc-btn primary" disabled={busy} onClick={clearChecks}>
+        클리어
       </button>
 
       <form className="cc-row" onSubmit={saveTotal}>
@@ -95,8 +87,6 @@ export default function Teacher() {
           <div className="cc-muted">{studentUrl}</div>
         </div>
       )}
-
-      <button className="cc-btn danger" disabled={busy} onClick={resetAll}>처음부터 초기화</button>
     </div>
   )
 }
