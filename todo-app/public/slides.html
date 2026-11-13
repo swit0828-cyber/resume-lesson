@@ -578,6 +578,27 @@
       background: #fff;
     }
     .fixed-qr strong { color: #fff; }
+    /* 큰 QR 슬라이드에서는 하단 상시 QR 숨김 */
+    body.qr-slide-active .fixed-qr { display: none; }
+
+    /* 큰 QR 안내 슬라이드 */
+    .qr-slide { align-items: center; text-align: center; }
+    .qr-big {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      margin-top: 16px;
+    }
+    .qr-big img {
+      width: min(52vh, 420px);
+      height: auto;
+      padding: 14px;
+      border-radius: 20px;
+      background: #fff;
+    }
+    .qr-big-caption { font-size: 1.3rem; color: var(--text-muted); }
+    .qr-big-caption strong { color: #fff; }
 
     .slide-counter { cursor: pointer; padding: 4px 8px; border-radius: 8px; }
     .slide-counter:hover { background: rgba(255, 255, 255, 0.1); }
@@ -662,8 +683,28 @@
       </div>
     </section>
 
+    <!-- QR 안내 1: Slido -->
+    <section class="slide qr-slide" data-index="2">
+      <div class="badge">Q&amp;A</div>
+      <h2 class="slide-title">궁금한 건 언제든 Slido로 질문하세요</h2>
+      <div class="qr-big">
+        <img src="./images/slido_qr.png" alt="Slido QR">
+        <div class="qr-big-caption">Slido 참여 코드 <strong>#1253102</strong></div>
+      </div>
+    </section>
+
+    <!-- QR 안내 2: 진도 체크 -->
+    <section class="slide qr-slide" data-index="3">
+      <div class="badge">진도 체크</div>
+      <h2 class="slide-title">단계를 끝내면 진도 체크 버튼을 눌러주세요</h2>
+      <div class="qr-big">
+        <img src="./images/check_qr.png" alt="진도 체크 QR">
+        <div class="qr-big-caption">QR을 찍고 <strong>완료</strong> 버튼을 누르면 강사 화면에 표시됩니다</div>
+      </div>
+    </section>
+
     <!-- Slide 2: AI는 확률로 말한다 (OCR 줌아웃 데모, 클릭 단계 진행) -->
-    <section class="slide" data-index="2" id="ocrSlide" data-steps="3">
+    <section class="slide" data-index="4" id="ocrSlide" data-steps="3">
       <div class="badge cyan">Section 1 · AI는 무엇인가</div>
       <h2 class="slide-title">이 숫자는 무엇일까요? — AI는 '확률'로 말한다</h2>
       <p class="slide-subtitle">OCR(글자 인식)은 픽셀이 <strong>어느 위치에</strong> 칠해져 있는지를 보고 각 숫자일 확률을 계산합니다</p>
@@ -688,7 +729,7 @@
     </section>
 
     <!-- Slide 3: 다음 말 예측 (오늘 날씨는 ___) + 대본 학습, 클릭 단계 진행 -->
-    <section class="slide" data-index="3" data-steps="2">
+    <section class="slide" data-index="5" data-steps="2">
       <div class="badge cyan">Section 1 · AI는 무엇인가</div>
 
       <div class="nw-sentence">오늘 날씨는 <span class="nw-blank"></span></div>
@@ -722,7 +763,7 @@
     </section>
 
     <!-- Slide 4: AI는 도구다 (배트 비유) -->
-    <section class="slide" data-index="4">
+    <section class="slide" data-index="6">
       <div class="badge amber">Section 1 · 마인드셋</div>
       <h2 class="slide-title">AI는 도구다 — 배트를 혼내는 타자는 없다</h2>
       <p class="slide-subtitle">AI는 확률로 답하는 도구입니다. 틀렸을 때 필요한 건 화풀이가 아니라 <strong>더 나은 지시</strong>입니다</p>
@@ -755,7 +796,7 @@
     </section>
 
     <!-- Slide 4: 개념 이해 (바이브 코딩의 본질) -->
-    <section class="slide" data-index="5">
+    <section class="slide" data-index="7">
       <div class="badge cyan">Section 1 · 개념 이해</div>
       <h2 class="slide-title">바이브 코딩(Vibe Coding)이란?</h2>
       <p class="slide-subtitle">문법을 외우는 것이 아니라, AI에게 명확한 맥락과 사각지대 없는 의도를 <strong>디렉팅</strong>하는 개발</p>
@@ -787,7 +828,7 @@
     </section>
 
     <!-- Slide 3: 도구 이해 (챗형 vs 에이전트형) -->
-    <section class="slide" data-index="6">
+    <section class="slide" data-index="8">
       <div class="badge cyan">Section 1 · 도구 이해</div>
       <h2 class="slide-title">💬 챗 vs 🤖 에이전트 — AI 도구는 두 종류다</h2>
       <p class="slide-subtitle">오늘은 무료 도구로 실습하지만, 도구가 어떻게 나뉘는지는 알고 시작합시다</p>
@@ -820,7 +861,7 @@
     </section>
 
     <!-- Slide 4: 현업 이야기 (티끌 모아 티끌) -->
-    <section class="slide" data-index="7">
+    <section class="slide" data-index="9">
       <div class="badge amber">Section 1 · 현업 이야기</div>
       <h2 class="slide-title">티끌 모아 티끌 — 무료만 모아서는 현업이 안 된다</h2>
       <p class="slide-subtitle">오늘은 무료로 충분합니다. 하지만 일로 하려면 이야기가 달라집니다</p>
@@ -849,7 +890,7 @@
     </section>
 
     <!-- 실습 1: 설치 -->
-    <section class="slide" data-index="8">
+    <section class="slide" data-index="10">
       <div class="badge">Section 2 · 설치</div>
       <h2 class="slide-title">설치 — 안티그래비티 · GitHub · GitHub Desktop</h2>
 
@@ -870,7 +911,7 @@
     </section>
 
     <!-- 실습 2: 폴더 세팅 -->
-    <section class="slide" data-index="9">
+    <section class="slide" data-index="11">
       <div class="badge rose-badge">Section 2 · 폴더 세팅 (중요)</div>
       <h2 class="slide-title">폴더 정리는 필수 — projects 아래에 만들기</h2>
 
@@ -887,7 +928,7 @@
     </section>
 
     <!-- 실습 3: 상황 알리고 환경 검토 -->
-    <section class="slide" data-index="10">
+    <section class="slide" data-index="12">
       <div class="badge cyan">Section 2 · 환경 검토</div>
       <h2 class="slide-title">AI에게 상황을 알리고, 환경 검토 맡기기</h2>
 
@@ -912,7 +953,7 @@
     </section>
 
     <!-- 실습 4: 투두리스트 만들기 (각자) -->
-    <section class="slide" data-index="11">
+    <section class="slide" data-index="13">
       <div class="badge cyan">Section 3 · 투두리스트</div>
       <h2 class="slide-title">투두리스트 만들기 — 프롬프트는 각자</h2>
 
@@ -935,7 +976,7 @@
     </section>
 
     <!-- 확인은 AI에게, 판단은 내가 -->
-    <section class="slide" data-index="12">
+    <section class="slide" data-index="14">
       <div class="badge cyan">Section 3 · 실행</div>
       <h2 class="slide-title">확인은 AI에게, 판단은 내가</h2>
 
@@ -966,7 +1007,7 @@
     </section>
 
     <!-- Slide 4: Supabase 1단계 (조직 및 프로젝트 생성) -->
-    <section class="slide" data-index="13">
+    <section class="slide" data-index="15">
       <div class="badge emerald">Section 3 · Supabase 1</div>
       <h2 class="slide-title">Supabase 1: 가입 · 프로젝트 만들기</h2>
 
@@ -1004,7 +1045,7 @@
     </section>
 
     <!-- 실습 6: Supabase 2 (SQL · 키 · 확인) -->
-    <section class="slide" data-index="14">
+    <section class="slide" data-index="16">
       <div class="badge emerald">Section 3 · Supabase 2</div>
       <h2 class="slide-title">Supabase 2: SQL 실행 · 키 연결 · 값 확인</h2>
 
@@ -1032,7 +1073,7 @@
     </section>
 
     <!-- 실습 7: env 보안 -->
-    <section class="slide" data-index="15">
+    <section class="slide" data-index="17">
       <div class="badge rose-badge">Section 3 · 보안</div>
       <h2 class="slide-title">🔒 .env 값은 절대 AI에게 보여주지 않는다</h2>
 
@@ -1053,7 +1094,7 @@
     </section>
 
     <!-- 실습 8: GitHub 올리기 -->
-    <section class="slide" data-index="16">
+    <section class="slide" data-index="18">
       <div class="badge">Section 3 · GitHub</div>
       <h2 class="slide-title">GitHub에 올리기 — 내가 할 일 vs AI가 할 일</h2>
 
@@ -1070,7 +1111,7 @@
     </section>
 
     <!-- 실습 9: Vercel 1 (가입 · 연동 · 배포) -->
-    <section class="slide" data-index="17">
+    <section class="slide" data-index="19">
       <div class="badge emerald">Section 4 · Vercel 1</div>
       <h2 class="slide-title">Vercel 1: 가입 · GitHub 연동 · 배포</h2>
 
@@ -1101,7 +1142,7 @@
     </section>
 
     <!-- 실습 10: Vercel 2 (env · 확인) -->
-    <section class="slide" data-index="18">
+    <section class="slide" data-index="20">
       <div class="badge amber">Section 4 · Vercel 2</div>
       <h2 class="slide-title">Vercel 2: env 넣고 동작 확인</h2>
 
@@ -1139,7 +1180,7 @@
     </section>
 
     <!-- Slide 10: 내 이력서 페이지 확장 -->
-    <section class="slide" data-index="19">
+    <section class="slide" data-index="21">
       <div class="badge">Section 5 · 최종 확장</div>
       <h2 class="slide-title">내 첫 포트폴리오 & 이력서 사이트로 리뉴얼하기</h2>
       <p class="slide-subtitle">이미 배포 파이프라인(Git → Vercel)이 뚫렸으므로, 이제 말 한마디면 사이트가 바뀝니다.</p>
@@ -1160,7 +1201,7 @@
     </section>
 
     <!-- Slide 11: 마무리 및 Q&A -->
-    <section class="slide" data-index="20">
+    <section class="slide" data-index="22">
       <div class="badge cyan">Wrap Up</div>
       <h1 class="hero-title" style="font-size: 2.6rem;">오늘 여러분은 2시간 만에<br>진짜 풀스택 배포를 완주했습니다</h1>
       <p class="slide-subtitle">데이터베이스(Supabase) → 웹 프론트엔드 → 자동 배포(Vercel)까지의 파이프라인을 체득했습니다.</p>
@@ -1315,6 +1356,7 @@
       slides.forEach((slide, idx) => slide.classList.toggle('active', idx === index));
       currentIndex = index;
       currentStep = step;
+      document.body.classList.toggle('qr-slide-active', slides[index].classList.contains('qr-slide'));
       counter.textContent = `${currentIndex + 1} / ${totalSlides}`;
       progressBar.style.width = `${((currentIndex + 1) / totalSlides) * 100}%`;
       try { history.replaceState(null, '', `#${currentIndex + 1}`); } catch (e) {}
