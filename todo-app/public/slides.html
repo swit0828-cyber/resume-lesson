@@ -613,7 +613,7 @@
       background: rgba(2, 6, 23, 0.7);
       color: var(--accent-cyan);
       font-family: Consolas, 'Courier New', monospace;
-      font-size: clamp(0.95rem, 1.6vw, 1.4rem);
+      font-size: clamp(0.9rem, 1.45vw, 1.3rem);
       cursor: pointer;
     }
     .guide-url-box:hover { border-color: var(--accent-cyan); }
@@ -1238,7 +1238,7 @@
           try { ok = document.execCommand('copy'); } catch (err) {}
           ta.remove();
         }
-        label.textContent = ok ? '복사됨' : '실패';
+        label.textContent = ok ? '완료' : '실패';
         box.classList.toggle('copied', ok);
         setTimeout(() => { label.textContent = '복사'; box.classList.remove('copied'); }, 1500);
       });
