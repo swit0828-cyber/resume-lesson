@@ -600,6 +600,36 @@
     .qr-big-caption { font-size: 1.3rem; color: var(--text-muted); }
     .qr-big-caption strong { color: #fff; }
 
+    /* 안내 페이지 주소 (클릭하면 복사, 한 줄 유지) */
+    .guide-url-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      width: 100%;
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--glass-border);
+      background: rgba(2, 6, 23, 0.7);
+      color: var(--accent-cyan);
+      font-family: Consolas, 'Courier New', monospace;
+      font-size: clamp(0.95rem, 1.6vw, 1.4rem);
+      cursor: pointer;
+    }
+    .guide-url-box:hover { border-color: var(--accent-cyan); }
+    .guide-url { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+    .guide-copy {
+      flex: none;
+      padding: 4px 12px;
+      border-radius: 8px;
+      background: var(--accent-cyan);
+      color: #0b1120;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .guide-url-box.copied .guide-copy { background: var(--accent-emerald); }
+
     .slide-counter { cursor: pointer; padding: 4px 8px; border-radius: 8px; }
     .slide-counter:hover { background: rgba(255, 255, 255, 0.1); }
 
@@ -937,7 +967,7 @@
 
       <div class="split-layout">
         <div class="text-column">
-          <div class="code-box" style="font-size: 1.4rem; text-align: center;"><span class="guide-url">/guide.html</span></div>
+          <button type="button" class="guide-url-box" title="복사"><span class="guide-url">/guide</span><span class="guide-copy">복사</span></button>
           <div class="loop" style="margin-top: 16px;">
             <div class="loop-step"><b>1</b>&nbsp; 받은 번호 선택</div>
             <div class="loop-step"><b>2</b>&nbsp; <strong>② 만들기</strong> 복사 → <strong>[디자인]</strong> 채워서 AI에게</div>
@@ -1189,8 +1219,27 @@
     const stepHandlers = { ocrSlide: ocr };
 
     // 실습 안내 페이지 주소 (배포된 도메인 기준)
-    document.querySelectorAll('.guide-url').forEach((el) => {
-      if (location.host) el.textContent = `${location.host}/guide.html`;
+    document.querySelectorAll('.guide-url-box').forEach((box) => {
+      const urlEl = box.querySelector('.guide-url');
+      const label = box.querySelector('.guide-copy');
+      if (location.host) urlEl.textContent = `${location.host}/guide`;
+      box.addEventListener('click', async () => {
+        const text = location.host ? `${location.origin}/guide` : urlEl.textContent;
+        let ok = false;
+        try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          try { ok = document.execCommand('copy'); } catch (err) {}
+          ta.remove();
+        }
+        label.textContent = ok ? '복사됨' : '실패';
+        box.classList.toggle('copied', ok);
+        setTimeout(() => { label.textContent = '복사'; box.classList.remove('copied'); }, 1500);
+      });
     });
 
     // ===== 슬라이드 내비게이션 (슬라이드 안 클릭 단계 지원) =====
