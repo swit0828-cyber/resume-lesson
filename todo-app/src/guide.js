@@ -27,6 +27,8 @@ function render() {
     `VITE_STUDENT_NO=${no || '(번호를 먼저 선택하세요)'}`,
   ].join('\n')
   document.querySelectorAll('.env-lines').forEach((el) => (el.textContent = lines))
+  // Vercel 프로젝트 이름: 폴더 이름(한글·공백)과 상관없이 영문으로 고정
+  document.querySelectorAll('.project-name').forEach((el) => (el.textContent = `todo-${no || '번호'}`))
 
   const hasNumber = no !== ''
   document.body.classList.toggle('no-number', !hasNumber)

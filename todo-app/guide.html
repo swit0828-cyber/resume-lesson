@@ -84,7 +84,7 @@
 위 디자인으로 Vite + React 투두리스트 웹앱을 지금 열려 있는 폴더에 바로 만들어줘. (하위 폴더를 만들지 마)
 
 [순서] 반드시 이 순서대로 해.
-1. 폴더에 아무 파일도 먼저 만들지 말고, 이 명령으로 프로젝트부터 만들어: npm create vite@latest . -- --template react
+1. 폴더에 아무 파일도 먼저 만들지 말고, 이 명령으로 프로젝트부터 만들어: npm create vite@latest . -- --template react --no-interactive
 2. 그다음 .env 파일을 만들고 아래 3줄을 그대로 넣어.
 <span class="env-lines"></span>
 3. .gitignore에 .env를 추가해.
@@ -114,10 +114,11 @@
       <pre id="deployBox">Vercel CLI(npx vercel)로 이 프로젝트를 배포해줘. git은 사용하지 마.
 
 1. npx vercel whoami로 로그인 상태를 확인하고, 로그인이 안 돼 있으면 npx vercel login을 실행해서 화면에 나온 링크를 나에게 알려줘. 내가 브라우저에서 승인할게.
-2. npx vercel link --yes로 프로젝트를 만들어.
-3. 아래 3개 환경변수를 Production에 등록해. 이미 있으면 덮어써. (예: npx vercel env add 이름 production --value 값 --yes --force)
+2. npx vercel link --yes --project <span class="project-name"></span> 로 프로젝트를 만들어.
+3. 아래 3개 환경변수를 Production에 등록해. 이미 있으면 덮어써. (예: npx vercel env add 이름 --environment production --value 값 --yes --force)
 <span class="env-lines"></span>
-4. npx vercel deploy --prod --yes로 배포하고, 배포 주소를 알려줘.</pre>
+4. npx vercel deploy --prod --yes로 배포해.
+5. 출력에 나온 주소 중 Aliased로 표시된 짧은 주소(중간에 무작위 문자가 없는 주소)를 알려줘.</pre>
     </section>
 
     <section>
