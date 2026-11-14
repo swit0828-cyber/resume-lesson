@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { supabase, isConfigured } from './supabase'
+import { supabase, isConfigured, studentNo } from './supabase'
 
 export default function App() {
   const [todos, setTodos] = useState([])
@@ -21,6 +21,7 @@ export default function App() {
       const { data, error } = await supabase
         .from('todos')
         .select('*')
+        .eq('student_no', studentNo)
         .order('created_at', { ascending: false })
 
       if (error) throw error
@@ -45,7 +46,7 @@ export default function App() {
     if (!trimmed || submitting) return
 
     if (!isConfigured) {
-      alert('.env 파일에 Supabase URL과 KEY를 먼저 설정해주세요!')
+      alert('.env 파일에 Supabase URL · KEY · 번호를 먼저 설정해주세요!')
       return
     }
 
@@ -53,7 +54,7 @@ export default function App() {
       setSubmitting(true)
       const { data, error } = await supabase
         .from('todos')
-        .insert([{ title: trimmed, is_completed: false }])
+        .insert([{ title: trimmed, is_completed: false, student_no: studentNo }])
         .select()
 
       if (error) throw error
@@ -127,7 +128,7 @@ export default function App() {
       {/* 헤더 */}
       <header className="header">
         <div className="badge">Supabase × Vibe Coding</div>
-        <h1 className="title">오늘의 할 일</h1>
+        <h1 className="title">오늘의 할 일{isConfigured && ` · ${studentNo}번`}</h1>
         <p className="subtitle">클라우드 데이터베이스에 실시간으로 동기화되는 투두리스트</p>
       </header>
 
@@ -136,10 +137,10 @@ export default function App() {
         <div className="config-warning">
           <h3>⚠️ Supabase 연결 필요</h3>
           <p>
-            <code>todo-app/.env</code> 파일에 Supabase <strong>URL</strong>과 <strong>ANON_KEY</strong>를 입력하면 바로 실시간 연동됩니다.
+            <code>todo-app/.env</code> 파일에 <strong>URL</strong> · <strong>ANON_KEY</strong> · <strong>STUDENT_NO</strong>를 입력하면 바로 연동됩니다.
           </p>
           <p style={{ margin: 0, fontSize: '0.82rem', color: '#94a3b8' }}>
-            Supabase 대시보드 &gt; Project Settings &gt; API 메뉴에서 확인하실 수 있습니다.
+            실습 안내 페이지(/guide.html)에서 내 번호를 고르고 복사하세요.
           </p>
         </div>
       )}

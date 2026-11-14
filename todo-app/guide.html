@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>투두리스트 실습</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card: rgba(255, 255, 255, 0.04);
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #8b5cf6;
+      --cyan: #22d3ee;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      line-height: 1.6;
+    }
+    main { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+    h1 { font-size: 1.8rem; margin: 0 0 24px; }
+    section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    h2 { font-size: 1.15rem; margin: 0 0 12px; display: flex; align-items: center; gap: 10px; }
+    h2 .no {
+      flex: 0 0 28px; height: 28px; border-radius: 50%;
+      background: var(--accent); display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+    }
+    select {
+      font: inherit; font-size: 1.2rem; padding: 8px 12px; border-radius: 10px;
+      background: #111827; color: var(--text); border: 1px solid var(--border);
+    }
+    .box-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; color: var(--muted); font-size: 0.9rem; }
+    pre {
+      margin: 0; padding: 16px; border-radius: 12px;
+      background: #020617; border: 1px solid var(--border);
+      font-family: Consolas, 'Courier New', monospace; font-size: 0.9rem;
+      white-space: pre-wrap; word-break: break-all;
+    }
+    button.copy {
+      font: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer;
+      padding: 6px 16px; border-radius: 8px; border: none;
+      background: var(--cyan); color: #0b1120;
+    }
+    button.copy.done { background: #34d399; }
+    code { color: var(--cyan); }
+    .warn { color: #fb7185; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>투두리스트 실습</h1>
+
+    <section>
+      <h2><span class="no">1</span>내 번호</h2>
+      <select id="studentNo"></select>
+    </section>
+
+    <section>
+      <h2><span class="no">2</span>프롬프트</h2>
+      <div class="box-head">
+        <span>복사 → 안티그래비티에 붙여넣기 → <strong>[디자인]</strong> 한 줄 채우기</span>
+        <button class="copy" data-target="promptBox">복사</button>
+      </div>
+      <pre id="promptBox">Vite + React로 투두리스트 웹앱을 지금 열려 있는 폴더에 바로 만들어줘. (하위 폴더를 만들지 마)
+
+[데이터베이스]
+- Supabase를 사용해. 테이블은 이미 만들어져 있으니 새로 만들거나 SQL을 작성하지 마.
+- 테이블 이름: todos
+- 컬럼
+  - id: 자동 증가 번호
+  - title: 할 일 내용 (문자)
+  - is_completed: 완료 여부 (true / false)
+  - student_no: 내 번호 (숫자)
+  - created_at: 만든 시간 (자동)
+
+[환경변수]
+- 프로젝트 폴더에 .env 파일을 만들고 아래 3줄을 그대로 넣어줘.
+<span id="envInPrompt"></span>
+- 코드에서는 import.meta.env로 읽어서 사용해.
+- .gitignore에 .env를 꼭 넣어줘.
+
+[기능] 이 4가지만 만들어줘.
+1. 추가: 할 일을 입력하면 student_no에 VITE_STUDENT_NO 값을 넣어서 저장
+2. 조회: student_no가 VITE_STUDENT_NO인 할 일만 최신순으로 보여주기
+3. 수정: 할 일을 클릭하면 완료 / 미완료 바꾸기
+4. 삭제: 삭제 버튼을 누르면 지우기
+- 모든 조회 · 수정 · 삭제는 반드시 student_no가 내 번호인 것만 대상으로 해.
+
+[디자인]
+-
+
+다 만들면 npm install, npm run dev로 실행하고 브라우저에서 화면을 확인해줘.</pre>
+    </section>
+
+    <section>
+      <h2><span class="no">3</span>Vercel 환경변수</h2>
+      <div class="box-head">
+        <span>Vercel Environment Variables에 붙여넣기</span>
+        <button class="copy" data-target="envBox">복사</button>
+      </div>
+      <pre id="envBox"></pre>
+    </section>
+
+    <p id="notReady" class="warn" hidden>Supabase 설정이 아직 없습니다. 강사에게 알려주세요.</p>
+  </main>
+
+  <script type="module" src="/src/guide.js"></script>
+</body>
+</html>

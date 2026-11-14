@@ -673,8 +673,8 @@
           <div class="card-desc">코더에서 AI 디렉터로 전환, Git 계정 충돌 방지 셋업</div>
         </div>
         <div class="feature-card">
-          <div class="card-title">🗄️ 2. Supabase 실시간 DB</div>
-          <div class="card-desc">클라우드 PostgreSQL에 3줄 SQL로 테이블과 RLS 연동</div>
+          <div class="card-title">🗄️ 2. Supabase DB 연동</div>
+          <div class="card-desc">공용 클라우드 DB에 연결해 추가 · 조회 · 수정 · 삭제(CRUD) 완성</div>
         </div>
         <div class="feature-card">
           <div class="card-title">🚀 3. Vercel 배포 & 이력서</div>
@@ -683,23 +683,11 @@
       </div>
     </section>
 
-    <!-- QR 안내 1: Slido -->
+    <!-- QR 안내: 문의 -->
     <section class="slide qr-slide" data-index="2">
-      <div class="badge">Q&amp;A</div>
-      <h2 class="slide-title">궁금한 건 언제든 Slido로 질문하세요</h2>
+      <h2 class="slide-title">궁금한 건 언제든 물어보세요</h2>
       <div class="qr-big">
-        <img src="./images/slido_qr.png" alt="Slido QR">
-        <div class="qr-big-caption">Slido 참여 코드 <strong>#1253102</strong></div>
-      </div>
-    </section>
-
-    <!-- QR 안내 2: 진도 체크 -->
-    <section class="slide qr-slide" data-index="3">
-      <div class="badge">진도 체크</div>
-      <h2 class="slide-title">단계를 끝내면 진도 체크 버튼을 눌러주세요</h2>
-      <div class="qr-big">
-        <img src="./images/check_qr.png" alt="진도 체크 QR">
-        <div class="qr-big-caption">QR을 찍고 <strong>완료</strong> 버튼을 누르면 강사 화면에 표시됩니다</div>
+        <img src="./images/contact_qr.png" alt="문의 QR">
       </div>
     </section>
 
@@ -901,7 +889,7 @@
         </div>
         <div class="feature-card">
           <div class="card-title">② GitHub 가입</div>
-          <div class="card-desc">github.com 가입<br>Supabase · Vercel은 이 계정으로 로그인</div>
+          <div class="card-desc">github.com 가입<br>Vercel은 이 계정으로 로그인</div>
         </div>
         <div class="feature-card">
           <div class="card-title">③ GitHub Desktop 설치</div>
@@ -955,15 +943,14 @@
     <!-- 실습 4: 투두리스트 만들기 (각자) -->
     <section class="slide" data-index="13">
       <div class="badge cyan">Section 3 · 투두리스트</div>
-      <h2 class="slide-title">투두리스트 만들기 — 프롬프트는 각자</h2>
+      <h2 class="slide-title">투두리스트 만들기 — 안내 페이지에서 복사</h2>
 
       <div class="split-layout">
         <div class="text-column">
-          <div class="ctx-grid">
-            <div class="feature-card"><div class="card-title">무엇을</div><div class="card-desc">투두리스트</div></div>
-            <div class="feature-card"><div class="card-title">어디에</div><div class="card-desc"><code>projects/todo-list</code></div></div>
-            <div class="feature-card"><div class="card-title">무엇으로</div><div class="card-desc">Supabase · Vercel</div></div>
-            <div class="feature-card" style="border-left: 4px solid var(--accent-cyan);"><div class="card-title">반드시</div><div class="card-desc">추가 · 조회 · 수정 · 삭제 (CRUD)</div></div>
+          <div class="code-box" style="font-size: 1.4rem; text-align: center;"><span class="guide-url">/guide.html</span></div>
+          <div class="loop" style="margin-top: 16px;">
+            <div class="loop-step"><b>1</b>&nbsp; 내 번호 선택</div>
+            <div class="loop-step"><b>2</b>&nbsp; 프롬프트 복사 → <strong>[디자인]</strong> 한 줄 채워서 AI에게</div>
           </div>
         </div>
         <div class="image-column">
@@ -1006,85 +993,31 @@
       </div>
     </section>
 
-    <!-- Slide 4: Supabase 1단계 (조직 및 프로젝트 생성) -->
+    <!-- Supabase: 저장 확인 (강사 공용 DB) -->
     <section class="slide" data-index="15">
-      <div class="badge emerald">Section 3 · Supabase 1</div>
-      <h2 class="slide-title">Supabase 1: 가입 · 프로젝트 만들기</h2>
+      <div class="badge emerald">Section 3 · Supabase</div>
+      <h2 class="slide-title">Supabase: 내 데이터가 저장됐는지 확인</h2>
 
-      <div class="split-layout">
-        <div class="text-column">
-          <div class="feature-card">
-            <div class="card-title">1. Organization 생성</div>
-            <div class="card-desc">Name에 닉네임 입력, Type: Personal, Plan: Free - $0/month 선택 후 [Create organization]</div>
-          </div>
-          <div class="feature-card">
-            <div class="card-title">2. Region 인시던트 주의!</div>
-            <div class="card-desc">
-              화면에 <code>Incident in progress</code> 경고가 뜨면 해당 리전 생성에 문제가 있을 수 있습니다. 드롭다운에서 <strong>Seoul (ap-northeast-2)</strong> 또는 Tokyo를 직접 지정하세요.
-            </div>
-          </div>
-          <div class="feature-card">
-            <div class="card-title">3. Enable automatic RLS 체크박스?</div>
-            <div class="card-desc">
-              기본 체크 해제 상태 그대로 두셔도 무방합니다. 우리는 SQL 스크립트에서 직접 RLS와 정책을 완벽하게 선언할 것이기 때문입니다.
-            </div>
-          </div>
-        </div>
-
-        <div class="image-column">
-          <div class="screenshot-card">
-            <img src="./images/01_supabase_org.png" alt="Supabase Org" class="screenshot-img">
-            <div class="screenshot-caption">📷 New Organization (Free)</div>
-          </div>
-          <div class="screenshot-card">
-            <img src="./images/02_supabase_project.png" alt="Supabase Project" class="screenshot-img">
-            <div class="screenshot-caption">📷 Project 생성</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 실습 6: Supabase 2 (SQL · 키 · 확인) -->
-    <section class="slide" data-index="16">
-      <div class="badge emerald">Section 3 · Supabase 2</div>
-      <h2 class="slide-title">Supabase 2: SQL 실행 · 키 연결 · 값 확인</h2>
-
-      <div class="split-layout">
-        <div class="text-column">
-          <div class="loop">
-            <div class="loop-step"><b>1</b>&nbsp; AI에게 <strong>지금 앱에 맞는 SQL</strong> 작성 요청 (RLS 정책 포함)</div>
-            <div class="loop-step"><b>2</b>&nbsp; SQL Editor에 붙여넣고 <strong>[Run]</strong></div>
-            <div class="loop-step"><b>3</b>&nbsp; Project URL · Publishable Key → <code>.env</code>에 <strong>직접</strong> 붙여넣기</div>
-            <div class="loop-step"><b>4</b>&nbsp; 로컬에서 할 일 추가 → Supabase <strong>Table Editor</strong>에 들어갔는지 확인</div>
-          </div>
-        </div>
-
-        <div class="image-column">
-          <div class="screenshot-card">
-            <img src="./images/03_supabase_dashboard.png" alt="Supabase Dashboard" class="screenshot-img">
-            <div class="screenshot-caption">📷 대시보드 홈의 [API Keys]</div>
-          </div>
-          <div class="screenshot-card">
-            <img src="./images/04_supabase_keys.png" alt="Supabase API Keys" class="screenshot-img">
-            <div class="screenshot-caption">📷 Publishable key 복사</div>
-          </div>
-        </div>
+      <div class="loop">
+        <div class="loop-step"><b>1</b>&nbsp; 할 일 추가 · 완료 체크 · 삭제</div>
+        <div class="loop-step"><b>2</b>&nbsp; 새로고침해도 그대로 남아 있는지</div>
+        <div class="loop-step"><b>3</b>&nbsp; 강사 화면 <strong>Table Editor</strong>에 내 번호로 들어왔는지</div>
       </div>
     </section>
 
     <!-- 실습 7: env 보안 -->
     <section class="slide" data-index="17">
       <div class="badge rose-badge">Section 3 · 보안</div>
-      <h2 class="slide-title">🔒 .env 값은 절대 AI에게 보여주지 않는다</h2>
+      <h2 class="slide-title">🔒 .env — 공개 키와 비밀 키는 다르다</h2>
 
       <div class="grid-3">
-        <div class="feature-card" style="border-left: 4px solid var(--accent-rose);">
-          <div class="card-title">채팅창에 붙이지 않기</div>
-          <div class="card-desc">키는 내가 <code>.env</code> 파일에 직접 붙여넣는다</div>
+        <div class="feature-card" style="border-left: 4px solid var(--accent-emerald);">
+          <div class="card-title">공개 키 (오늘 쓰는 키)</div>
+          <div class="card-desc"><code>VITE_</code> · Publishable 키는 브라우저에 공개되는 값 → AI에게 줘도 OK</div>
         </div>
         <div class="feature-card" style="border-left: 4px solid var(--accent-rose);">
-          <div class="card-title">읽게 하지 않기</div>
-          <div class="card-desc">AI에게 <code>.env</code>를 열어보라고 하지 않는다</div>
+          <div class="card-title">비밀 키</div>
+          <div class="card-desc">Secret · service_role · 결제 키는 AI 채팅창에 절대 붙이지 않기</div>
         </div>
         <div class="feature-card" style="border-left: 4px solid var(--accent-rose);">
           <div class="card-title">올리지 않기</div>
@@ -1157,8 +1090,8 @@
             <div class="card-desc">브라우저에 공개되는 값이라 Secret 불가 → <strong>Config</strong>로 등록</div>
           </div>
           <div class="feature-card" style="border-left: 4px solid var(--accent-emerald);">
-            <div class="card-title">저장 → Redeploy → 확인</div>
-            <div class="card-desc">배포 주소에서 할 일 추가 → Supabase Table Editor에 들어갔는지 확인</div>
+            <div class="card-title"><code>.env</code> 3줄 붙여넣기 → 저장 → Redeploy</div>
+            <div class="card-desc">배포 주소에서 할 일 추가 → 로컬과 같은 목록이 보이는지 확인</div>
           </div>
         </div>
 
@@ -1228,13 +1161,8 @@
   </main>
 
   <!-- 상시 QR -->
-  <div class="fixed-qr left">
-    <img src="./images/check_qr.png" alt="진도 체크 QR">
-    <div><strong>진도 체크</strong></div>
-  </div>
   <div class="fixed-qr right">
-    <img src="./images/slido_qr.png" alt="Slido QR">
-    <div>Q&amp;A · Slido<br><strong>#1253102</strong></div>
+    <img src="./images/contact_qr.png" alt="문의 QR">
   </div>
 
   <!-- Bottom Nav Controls -->
@@ -1330,6 +1258,11 @@
     })();
 
     const stepHandlers = { ocrSlide: ocr };
+
+    // 실습 안내 페이지 주소 (배포된 도메인 기준)
+    document.querySelectorAll('.guide-url').forEach((el) => {
+      if (location.host) el.textContent = `${location.host}/guide.html`;
+    });
 
     // ===== 슬라이드 내비게이션 (슬라이드 안 클릭 단계 지원) =====
     const slides = document.querySelectorAll('.slide');
