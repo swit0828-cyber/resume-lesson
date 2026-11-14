@@ -60,7 +60,7 @@ export default function App() {
       if (error) throw error
 
       if (data && data.length > 0) {
-        setTodos([data[0], ...todos])
+        setTodos((prev) => [data[0], ...prev])
       } else {
         await fetchTodos()
       }
@@ -79,19 +79,20 @@ export default function App() {
 
     const updatedStatus = !todo.is_completed
     // 낙관적 업데이트 (UI 즉시 반영)
-    setTodos(todos.map((t) => (t.id === todo.id ? { ...t, is_completed: updatedStatus } : t)))
+    setTodos((prev) => prev.map((t) => (t.id === todo.id ? { ...t, is_completed: updatedStatus } : t)))
 
     try {
       const { error } = await supabase
         .from('todos')
         .update({ is_completed: updatedStatus })
         .eq('id', todo.id)
+        .eq('student_no', studentNo)
 
       if (error) throw error
     } catch (err) {
       console.error('Toggle error:', err)
       // 실패 시 롤백
-      setTodos(todos.map((t) => (t.id === todo.id ? { ...t, is_completed: todo.is_completed } : t)))
+      setTodos((prev) => prev.map((t) => (t.id === todo.id ? { ...t, is_completed: todo.is_completed } : t)))
       alert('상태 변경 실패: ' + err.message)
     }
   }
@@ -101,15 +102,19 @@ export default function App() {
     if (!isConfigured) return
 
     // 낙관적 삭제
-    const prevTodos = [...todos]
-    setTodos(todos.filter((t) => t.id !== id))
+    const removed = todos.find((t) => t.id === id)
+    setTodos((prev) => prev.filter((t) => t.id !== id))
 
     try {
-      const { error } = await supabase.from('todos').delete().eq('id', id)
+      const { error } = await supabase
+        .from('todos')
+        .delete()
+        .eq('id', id)
+        .eq('student_no', studentNo)
       if (error) throw error
     } catch (err) {
       console.error('Delete error:', err)
-      setTodos(prevTodos) // 롤백
+      if (removed) setTodos((prev) => [removed, ...prev]) // 롤백
       alert('삭제 실패: ' + err.message)
     }
   }

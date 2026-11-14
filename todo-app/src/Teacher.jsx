@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import QRCode from 'qrcode'
-import { supabase, isConfigured } from './supabase'
+import { supabase, isSupabaseConfigured as isConfigured } from './supabase'
 import { useClassState } from './classCheck'
 
 const studentUrl = `${window.location.origin}/check.html`

@@ -22,7 +22,7 @@ pnpm-debug.log*
 Thumbs.db
 
 # Supabase CLI
-supabase/.temp/
+**/supabase/.temp/
 
 # Vercel CLI
 .vercel

@@ -2,6 +2,7 @@
 -- 🚀 강사용: Supabase 대시보드 > SQL Editor에 복사 후 [RUN]을 누르세요!
 --    수강생은 이 SQL을 실행하지 않습니다. (강사 공용 프로젝트 하나를 같이 사용)
 --    여러 번 실행해도 안전합니다.
+--    번호: 0 = 강사 데모, 1 ~ 100 = 수강생
 -- ==============================================================================
 
 -- 1. todos 테이블 생성
@@ -12,17 +13,23 @@ create table if not exists todos (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- 2. 수강생 번호 컬럼 (1 ~ 100번)
+-- 2. 번호 컬럼 (0 ~ 100, 필수)
 alter table todos add column if not exists student_no int;
+delete from todos where student_no is null;
+alter table todos alter column student_no set not null;
 alter table todos drop constraint if exists todos_student_no_range;
-alter table todos add constraint todos_student_no_range check (student_no between 1 and 100);
+alter table todos add constraint todos_student_no_range check (student_no between 0 and 100);
 create index if not exists todos_student_no_idx on todos (student_no);
 
--- 3. Row Level Security(RLS) 활성화
+-- 3. 할 일 길이 제한 (대용량 입력 장난 방지)
+alter table todos drop constraint if exists todos_title_length;
+alter table todos add constraint todos_title_length check (char_length(title) <= 200);
+
+-- 4. Row Level Security(RLS) 활성화
 alter table todos enable row level security;
 
--- 4. 익명 사용자(초보자 실습용) 전체 CRUD 허용 정책
---    ⚠️ 키를 가진 누구나 모든 행을 읽고/지울 수 있습니다. 수업 후에는 데이터를 정리하세요.
+-- 5. 익명 사용자(초보자 실습용) 전체 CRUD 허용 정책
+--    ⚠️ 키를 가진 누구나 모든 행을 읽고/지울 수 있습니다. 수업 직전 백업, 수업 후 정리를 하세요.
 drop policy if exists "Public Access for Todos" on todos;
 create policy "Public Access for Todos"
   on todos
@@ -30,8 +37,11 @@ create policy "Public Access for Todos"
   using (true)
   with check (true);
 
+-- (수업 직전) 백업
+-- drop table if exists todos_backup; create table todos_backup as select * from todos;
+
 -- (참고) 번호별 현황 보기
 -- select student_no, count(*) from todos group by student_no order by student_no;
 
--- (참고) 수업 후 전체 정리
--- delete from todos;
+-- (수업 후) 전체 정리
+-- delete from todos where student_no > 0;

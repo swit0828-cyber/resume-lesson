@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { supabase, isConfigured } from './supabase'
+import { supabase, isSupabaseConfigured as isConfigured } from './supabase'
 import { useClassState, getClientId } from './classCheck'
 
 const clientId = getClientId()

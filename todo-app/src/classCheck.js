@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-import { supabase, isConfigured } from './supabase'
+import { supabase, isSupabaseConfigured as isConfigured } from './supabase'
 
 // 강의 상태(현재 단계, 학생 수)와 현재 단계 완료 수를 실시간으로 구독
 export function useClassState() {
