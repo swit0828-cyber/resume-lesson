@@ -498,6 +498,45 @@
     .loop-arrow { padding-left: 18px; color: var(--text-muted); font-size: 0.9rem; }
     .role-table td { width: 50%; font-weight: 400 !important; white-space: normal !important; }
 
+    /* 설치 선택 (설치할 것만 강조) */
+    .pick-list { display: flex; flex-direction: column; gap: 8px; }
+    .pick-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-muted);
+      opacity: 0.55;
+    }
+    .pick-row .mark { font-weight: 800; }
+    .pick-row.pick {
+      opacity: 1;
+      color: #fff;
+      font-weight: 700;
+      border: 2px solid var(--accent-emerald);
+      background: rgba(16, 185, 129, 0.14);
+      box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.1);
+    }
+    .pick-row.pick .mark { color: #6ee7b7; }
+    .pick-row small { font-weight: 500; color: var(--text-muted); }
+    .pick-row.pick small { color: #a7f3d0; }
+    .link-box {
+      display: block;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      background: rgba(2, 6, 23, 0.7);
+      color: var(--accent-cyan);
+      font-family: Consolas, 'Courier New', monospace;
+      font-size: 1.05rem;
+      text-decoration: none;
+    }
+    .link-box:hover { border-color: var(--accent-cyan); }
+
     .badge.rose-badge {
       background: rgba(244, 63, 94, 0.15);
       border-color: rgba(244, 63, 94, 0.35);
@@ -713,7 +752,7 @@
     <section class="slide qr-slide" data-index="2">
       <h2 class="slide-title">궁금한 건 언제든 물어보세요</h2>
       <div class="qr-big">
-        <img src="./images/contact_qr.png" alt="문의 QR">
+        <img src="/images/contact_qr.png" alt="문의 QR">
       </div>
     </section>
 
@@ -905,13 +944,19 @@
 
     <!-- 실습 1: 설치 -->
     <section class="slide" data-index="10">
-      <div class="badge">Section 2 · 설치</div>
+      <div class="badge">Section 1 · 설치</div>
       <h2 class="slide-title">설치 — 안티그래비티 · GitHub</h2>
 
-      <div class="grid-2">
+      <div class="grid-2" style="align-items: start;">
         <div class="feature-card">
-          <div class="card-title">① 안티그래비티 설치</div>
-          <div class="card-desc">공식 사이트에서 설치 파일 다운로드 → 설치 → 로그인</div>
+          <div class="card-title">① 안티그래비티 — <span style="color: #6ee7b7;">IDE</span> 설치</div>
+          <a class="link-box" href="https://antigravity.google/download" target="_blank" rel="noopener" style="margin: 10px 0 12px;">antigravity.google/download</a>
+          <div class="pick-list">
+            <div class="pick-row"><span>Antigravity App</span><span class="mark">✕</span></div>
+            <div class="pick-row"><span>Antigravity CLI</span><span class="mark">✕</span></div>
+            <div class="pick-row pick"><span>Antigravity IDE (Standalone)<br><small>Windows x64</small></span><span class="mark">✓ 이것</span></div>
+            <div class="pick-row"><span>Antigravity Extensions</span><span class="mark">✕</span></div>
+          </div>
         </div>
         <div class="feature-card">
           <div class="card-title">② GitHub 가입</div>
@@ -922,7 +967,7 @@
 
     <!-- 실습 2: 폴더 세팅 -->
     <section class="slide" data-index="11">
-      <div class="badge rose-badge">Section 2 · 폴더 세팅 (중요)</div>
+      <div class="badge rose-badge">Section 1 · 폴더 세팅 (중요)</div>
       <h2 class="slide-title">폴더 정리는 필수 — projects 아래에 만들기</h2>
 
       <div class="grid-2" style="align-items: center;">
@@ -939,7 +984,7 @@
 
     <!-- 실습 3: 상황 알리고 환경 검토 -->
     <section class="slide" data-index="12">
-      <div class="badge cyan">Section 2 · 환경 검토</div>
+      <div class="badge cyan">Section 1 · 환경 검토</div>
       <h2 class="slide-title">AI에게 상황을 알리고, 환경 검토 맡기기</h2>
 
       <div class="prompt-card">
@@ -962,9 +1007,31 @@
       <div class="quote-box" style="margin-top: 16px;">✋ 여기까지는 <strong>모두 같이</strong> 진행</div>
     </section>
 
+    <!-- 설치 안내: 무엇을 설치할지 -->
+    <section class="slide">
+      <div class="badge cyan">Section 1 · 설치 안내</div>
+      <h2 class="slide-title">설치하라고 나오면 — Node.js만 설치</h2>
+
+      <div class="grid-2" style="align-items: start;">
+        <div class="pick-list">
+          <div class="pick-row pick"><span>Node.js <small>(npm 포함)</small></span><span class="mark">✓ 설치</span></div>
+          <div class="pick-row"><span>npm</span><span class="mark">Node.js에 포함</span></div>
+          <div class="pick-row"><span>Git</span><span class="mark">✕</span></div>
+          <div class="pick-row"><span>Vercel CLI</span><span class="mark">✕ npx로 실행</span></div>
+          <div class="pick-row"><span>Supabase CLI</span><span class="mark">✕</span></div>
+        </div>
+        <div class="loop">
+          <a class="link-box" href="https://nodejs.org/ko/download" target="_blank" rel="noopener">nodejs.org/ko/download</a>
+          <div class="loop-step"><b>1</b>&nbsp; <strong>LTS</strong> · Windows 설치 프로그램 (.msi)</div>
+          <div class="loop-step"><b>2</b>&nbsp; 기본값 그대로 Next → 설치</div>
+          <div class="loop-step"><b>3</b>&nbsp; 안티그래비티 껐다 켜기</div>
+        </div>
+      </div>
+    </section>
+
     <!-- 실습 4: 투두리스트 만들기 (각자) -->
     <section class="slide" data-index="13">
-      <div class="badge cyan">Section 3 · 투두리스트</div>
+      <div class="badge cyan">Section 2 · 투두리스트</div>
       <h2 class="slide-title">투두리스트 만들기 — 안내 페이지에서 복사</h2>
 
       <div class="split-layout">
@@ -977,7 +1044,7 @@
         </div>
         <div class="image-column">
           <div class="screenshot-card">
-            <img src="./images/14_todo_app_live.png" alt="Todo App" class="screenshot-img large">
+            <img src="/images/14_todo_app_live.png" alt="Todo App" class="screenshot-img large">
             <div class="screenshot-caption">📷 예시</div>
           </div>
         </div>
@@ -986,7 +1053,7 @@
 
     <!-- 확인은 AI에게, 판단은 내가 -->
     <section class="slide" data-index="14">
-      <div class="badge cyan">Section 3 · 실행</div>
+      <div class="badge cyan">Section 2 · 실행</div>
       <h2 class="slide-title">확인은 AI에게, 판단은 내가</h2>
 
       <div class="split-layout">
@@ -1004,7 +1071,7 @@
 
         <div class="image-column">
           <div class="screenshot-card">
-            <img src="./images/14_todo_app_live.png" alt="Todo App Live" class="screenshot-img">
+            <img src="/images/14_todo_app_live.png" alt="Todo App Live" class="screenshot-img">
             <div class="screenshot-caption">📷 예시</div>
           </div>
         </div>
@@ -1013,7 +1080,7 @@
 
     <!-- Supabase: 저장 확인 (강사 공용 DB) -->
     <section class="slide" data-index="15">
-      <div class="badge emerald">Section 3 · Supabase</div>
+      <div class="badge emerald">Section 2 · Supabase</div>
       <h2 class="slide-title">Supabase: 내 데이터가 저장됐는지 확인</h2>
 
       <div class="loop">
@@ -1025,7 +1092,7 @@
 
     <!-- 실습 7: env 보안 -->
     <section class="slide" data-index="17">
-      <div class="badge rose-badge">Section 3 · 보안</div>
+      <div class="badge rose-badge">Section 2 · 보안</div>
       <h2 class="slide-title">🔒 .env — 공개 키와 비밀 키는 다르다</h2>
 
       <div class="grid-3">
@@ -1046,7 +1113,7 @@
 
     <!-- 배포: Vercel CLI (git 사용 안 함) -->
     <section class="slide" data-index="16">
-      <div class="badge emerald">Section 4 · 배포</div>
+      <div class="badge emerald">Section 3 · 배포</div>
       <h2 class="slide-title">배포는 AI에게 — Vercel</h2>
 
       <div class="loop">
@@ -1058,7 +1125,7 @@
 
     <!-- Slide 10: 내 이력서 페이지 확장 -->
     <section class="slide" data-index="21">
-      <div class="badge">Section 5 · 최종 확장</div>
+      <div class="badge">Section 3 · 최종 확장</div>
       <h2 class="slide-title">내 첫 포트폴리오 & 이력서 사이트로 리뉴얼하기</h2>
       <p class="slide-subtitle">배포 방법을 이미 알고 있으니, 이제 말 한마디면 사이트가 바뀝니다.</p>
 
@@ -1114,7 +1181,7 @@
           <div class="card-desc">
             질문이나 막히셨던 부분, 더 궁금한 프롬프트 패턴이 있다면 자유롭게 물어보세요!
           </div>
-          <img src="./images/contact_qr.png" alt="문의 QR" style="display: block; width: min(24vh, 180px); height: auto; margin: 16px auto 0; padding: 8px; border-radius: 12px; background: #fff;">
+          <img src="/images/contact_qr.png" alt="문의 QR" style="display: block; width: min(24vh, 180px); height: auto; margin: 16px auto 0; padding: 8px; border-radius: 12px; background: #fff;">
         </div>
       </div>
     </section>
@@ -1123,7 +1190,7 @@
 
   <!-- 상시 QR -->
   <div class="fixed-qr right">
-    <img src="./images/contact_qr.png" alt="문의 QR">
+    <img src="/images/contact_qr.png" alt="문의 QR">
   </div>
 
   <!-- Bottom Nav Controls -->
